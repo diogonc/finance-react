@@ -28,11 +28,11 @@ const styles = theme => ({
   fab: {
     [theme.breakpoints.down('sm')]: {
       position: 'absolute',
-      bottom: theme.spacing.unit * 2,
-      right: theme.spacing.unit * 2,
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
     },
     [theme.breakpoints.up('sm')]: {
-      margin: theme.spacing.unit * 2,
+      margin: theme.spacing(2),
       float: 'right'
     }
   },

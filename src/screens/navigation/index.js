@@ -16,6 +16,7 @@ import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ListItems from './listItems';
 import * as actions from '../../redux/actions/navigationActions';
+import * as accountActions from '../../redux/actions/accountActions';
 
 const drawerWidth = 190;
 
@@ -58,20 +59,24 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    width: theme.spacing.unit * 7,
+    width: theme.spacing(7),
     [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
+      width: theme.spacing(9),
     },
   },
 });
 
 const mapStateToProps = state => {
-  return { ...state.navigation };
+  return {
+    ...state.navigation,
+    user: state.account.user
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    toogleNavigation: isMenuExpanded => dispatch(actions.toogleMenu(isMenuExpanded))
+    toogleNavigation: isMenuExpanded => dispatch(actions.toogleMenu(isMenuExpanded)),
+    logoff: () => dispatch(accountActions.logoff())
   };
 };
 
@@ -80,6 +85,11 @@ const handleAccountOptionsOpen = (event, updateNavigationState, isMenuExpanded) 
 };
 
 const handleAccountOpionsClose = (updateNavigationState, isMenuExpanded) => {
+  updateNavigationState({ anchorEl: null, isMenuExpanded });
+};
+
+const logoff =  (updateNavigationState, isMenuExpanded, logoffFunction) => {
+  logoffFunction();
   updateNavigationState({ anchorEl: null, isMenuExpanded });
 };
 
@@ -113,70 +123,91 @@ const Navigation = props => {
       onClose={() => handleAccountOpionsClose(updateNavigationState, props.isMenuExpanded)}
     >
       <MenuItem onClick={() => handleAccountOpionsClose(updateNavigationState, props.isMenuExpanded)}>Minha conta</MenuItem>
-      <MenuItem onClick={() => handleAccountOpionsClose(updateNavigationState, props.isMenuExpanded)}>Sair</MenuItem>
+      <MenuItem onClick={() => logoff(updateNavigationState, props.isMenuExpanded, props.logoff)}>Sair</MenuItem>
     </Menu>
   );
 
-  return (
-    <>
+  let loggedScreen;
+
+  if (!!props.user)
+    loggedScreen =
+      <>
+        <AppBar
+          position="absolute"
+          className={classes.appBar}
+        >
+          <Toolbar className={classes.toolbar}>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={() => handleNavigationMenuOpen(props, updateNavigationState)}
+              className={classNames(
+                classes.menuButton,
+                isMenuExpanded && classes.menuButtonHidden,
+              )}
+            >  <MenuIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="Close drawer"
+              onClick={() => handleNavigationMenuClose(props, updateNavigationState)}
+              className={classNames(
+                classes.menuButton,
+                !isMenuExpanded && classes.menuButtonHidden,
+              )}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+              Financeiro
+            </Typography>
+            <IconButton
+              aria-owns={isMenuExpanded ? 'material-appbar' : undefined}
+              aria-haspopup="true"
+              onClick={(event) => handleAccountOptionsOpen(event, updateNavigationState, props.isMenuExpanded)}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+
+          </Toolbar>
+        </AppBar>
+        {renderMenu}
+        <Drawer
+          variant="permanent"
+          classes={{
+            paper: classNames(classes.drawerPaper, !navigationState.isMenuExpanded && classes.drawerPaperClose),
+          }}
+          open={isMenuExpanded}
+        >
+          <div className={classes.toolbarIcon}>
+            <IconButton onClick={() => handleNavigationMenuClose(props, updateNavigationState)}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            <ListItems />
+          </List>
+        </Drawer>
+      </>
+  else
+    loggedScreen = <>
       <AppBar
         position="absolute"
         className={classes.appBar}
       >
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={() => handleNavigationMenuOpen(props, updateNavigationState)}
-            className={classNames(
-              classes.menuButton,
-              isMenuExpanded && classes.menuButtonHidden,
-            )}
-          >  <MenuIcon />
-          </IconButton>
-          <IconButton
-            color="inherit"
-            aria-label="Close drawer"
-            onClick={() => handleNavigationMenuClose(props, updateNavigationState)}
-            className={classNames(
-              classes.menuButton,
-              !isMenuExpanded && classes.menuButtonHidden,
-            )}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
             Financeiro
-            </Typography>
-          <IconButton
-            aria-owns={isMenuExpanded ? 'material-appbar' : undefined}
-            aria-haspopup="true"
-            onClick={(event) => handleAccountOptionsOpen(event, updateNavigationState, props.isMenuExpanded)}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-
+          </Typography>
         </Toolbar>
       </AppBar>
-      {renderMenu}
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: classNames(classes.drawerPaper, !navigationState.isMenuExpanded && classes.drawerPaperClose),
-        }}
-        open={isMenuExpanded}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={() => handleNavigationMenuClose(props, updateNavigationState)}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>
-          <ListItems />
-        </List>
-      </Drawer>
+    </>
+
+  return (
+    <>
+      {loggedScreen}
     </>
   );
 }

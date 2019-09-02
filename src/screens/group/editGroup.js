@@ -29,11 +29,11 @@ const mapDispatchToProps = dispatch => {
 const styles = theme => ({
   form: {
     maxWidth: '350px',
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
   },
   button: {
-    marginTop: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit,
+    marginTop: theme.spacing(3),
+    marginRight: theme.spacing(1),
   },
 });
 
