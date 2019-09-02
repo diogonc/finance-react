@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/finance-react/static/css/main.34de6062.chunk.css",
+    "main.js": "/finance-react/static/js/main.45707389.chunk.js",
+    "main.js.map": "/finance-react/static/js/main.45707389.chunk.js.map",
+    "runtime~main.js": "/finance-react/static/js/runtime~main.6ffa33db.js",
+    "runtime~main.js.map": "/finance-react/static/js/runtime~main.6ffa33db.js.map",
+    "static/js/2.a11a7f3c.chunk.js": "/finance-react/static/js/2.a11a7f3c.chunk.js",
+    "static/js/2.a11a7f3c.chunk.js.map": "/finance-react/static/js/2.a11a7f3c.chunk.js.map",
+    "index.html": "/finance-react/index.html",
+    "precache-manifest.7d9436b0e105a155e311668d30377ce5.js": "/finance-react/precache-manifest.7d9436b0e105a155e311668d30377ce5.js",
+    "service-worker.js": "/finance-react/service-worker.js",
+    "static/css/main.34de6062.chunk.css.map": "/finance-react/static/css/main.34de6062.chunk.css.map"
+  }
+}
