@@ -1,5 +1,15 @@
 export const TOOGLE_MENU = 'TOOGLE_MENU';
-export const LOGIN = 'LOGIN';
+
+export const LOADING_START = 'LOADING_START';
+export const LOADING_END = 'LOADING_END';
+
+export const SHOW_ERROR = 'SHOW_ERROR';
+export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const CLOSE_MESSAGE = 'CLOSE_MESSAGE';
+
+export const LOGIN_START = 'LOGIN_START';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOFF = 'LOGOFF';
 
 export const ADD_PRODUCT = 'ADD_PRODUCT';

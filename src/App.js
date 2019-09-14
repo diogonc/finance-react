@@ -6,7 +6,9 @@ import ListGroup from './screens/group/listGroup';
 import EditGroup from './screens/group/editGroup';
 import Login from './screens/login/login';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
+import Message from './components/message';
 
 const styles = theme => ({
   root: {
@@ -20,12 +22,6 @@ const styles = theme => ({
   },
   appBarSpacer: theme.mixins.toolbar,
 });
-
-const mapStateToProps = state => {
-  return {
-    user: state.account.user
-  };
-};
 
 const App = (props) => {
   const { classes } = props;
@@ -46,8 +42,17 @@ const App = (props) => {
       </Switch>
   }
 
+  let loadingComponent = null;
+  if (props.appMain.loading) {
+    loadingComponent = <div className="loading">
+      <CircularProgress></CircularProgress>
+    </div>
+  }
+
   return (
     <div className={classes.root}>
+      {loadingComponent}
+      <Message />
       <CssBaseline />
       <Navigation />
       <main className={classes.content}>
@@ -58,6 +63,13 @@ const App = (props) => {
       </main>
     </div>
   );
+};
+
+const mapStateToProps = state => {
+  return {
+    user: state.account.user,
+    appMain: state.appMain
+  };
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(App));

@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import toastr from 'toastr'
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import MenuItem from '@material-ui/core/MenuItem';
 import * as actions from '../../redux/actions/accountActions';
 
-
-const mapDispatchToProps = dispatch => {
-  return {
-    login: loginData => dispatch(actions.login(loginData)),
-  };
-};
 
 const styles = theme => ({
   form: {
@@ -39,8 +31,7 @@ const Login = props => {
   const { classes } = props;
   let loginData = { username: '', password: '' };
 
-  const [login, updateLogin] = useState({ ...loginData });
-   
+  const [login, updateObject] = useState({ ...loginData });   
 
   return (
     <>
@@ -53,7 +44,7 @@ const Login = props => {
           <Input id="username" name="username" autoFocus
             value={login.username}
             onChange={event =>
-              updateLogin({ ...login, username: event.target.value })
+              updateObject({ ...login, username: event.target.value })
             } />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
@@ -61,7 +52,7 @@ const Login = props => {
           <Input name="priority" type="password" id="priority"
             value={login.password}
             onChange={event =>
-              updateLogin({ ...login, password: event.target.value })
+              updateObject({ ...login, password: event.target.value })
             } />
         </FormControl>
         <Button
@@ -78,6 +69,11 @@ const Login = props => {
   );
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    login: loginData => dispatch(actions.requestLogin(loginData)),
+  };
+};
 
 export default connect(
   null,
