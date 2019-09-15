@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class API {
     constructor(axios) {
-        this.axios = axios;
+        this.request = axios;
         this.baseUrl = 'http://localhost:3000/api/';
     }
 
@@ -12,10 +12,10 @@ class API {
 
     async postRequest(path, data){
         try {
-            const result = await this.axios.post(this.baseUrl + path, data);
-            return result.toJSON();
+            const result = await this.request.post(this.baseUrl + path, data);
+            return result.data;
         } catch (error) {
-            if(!!error.response && !!error.response.data && !!error.response.data.message){
+            if(!!error && !!error.response && !!error.response.data && !!error.response.data.message){
                 throw(error.response.data.message);
             }
             else throw(error);

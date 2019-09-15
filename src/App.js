@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import Navigation from './screens/navigation/';
 import ListGroup from './screens/group/listGroup';
 import EditGroup from './screens/group/editGroup';
@@ -29,7 +29,6 @@ const App = (props) => {
   let routes =
     <Switch>
       <Route path="/login" component={Login} />
-      <Route exact path="/" component={Login} />
     </Switch>
 
   if (!!props.user) {
@@ -40,7 +39,10 @@ const App = (props) => {
         <Route path="/groups" exact render={() => <ListGroup />} />
         <Route exact path="/" render={() => <ListGroup />} />
       </Switch>
+  } else if (props.location.pathname !== '/login') {
+    props.history.push('/login');
   }
+
 
   let loadingComponent = null;
   if (props.appMain.loading) {
@@ -72,5 +74,5 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(App));
+export default connect(mapStateToProps)(withRouter(withStyles(styles)(App)));
 

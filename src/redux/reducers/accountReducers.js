@@ -1,19 +1,21 @@
 import * as actionTypes from '../actions/actionTypes';
 
-const initialState = {
+let accountData = {};
+accountData = JSON.parse(localStorage.getItem('account'));
 
-};
+const initialState = accountData || {};
 
 const loginSuccess = (state, action) => {
-  const user = { id: 'test', username: 'username' };
-  return { user, loading: false };
+  const userData = {
+    user: { ...action.account.user },
+    token: action.account.token
+  };
+  localStorage.setItem('account', JSON.stringify(userData));
+  return userData;
 };
 
-const loginFail = (state, action) => {
-  return { loading: false };
-};
-
-const logoff = (state, action) => {
+const logoff = () => {
+  localStorage.removeItem('account');
   return {};
 }
 
@@ -21,10 +23,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_SUCCESS:
       return loginSuccess(state, action);
-    case actionTypes.LOGIN_FAIL:
-      return loginFail(state, action);
     case actionTypes.LOGOFF:
-      return logoff(state, action);
+      return logoff();
     default:
       return state;
   }

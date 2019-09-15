@@ -24,7 +24,7 @@ const messageComponent = function ShowMessage(props) {
                     vertical: 'top',
                     horizontal: 'right',
                 }}
-                open="true"
+                open={true}
                 autoHideDuration={6000}
                 onClose={handleClose}
                 ContentProps={{

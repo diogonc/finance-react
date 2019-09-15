@@ -4,7 +4,7 @@ import * as actions from '../actions/appMainActions';
 export const loginSuccess = loginPayload => {
   return {
     type: actionTypes.LOGIN_SUCCESS,
-    loginPayload
+    account: loginPayload
   };
 };
 
@@ -21,7 +21,7 @@ export const requestLogin = loginData => {
       const result = await api.login(loginData.username, loginData.password);
 
       dispatch(actions.loadingEnd());
-      dispatch(loginSuccess(result.toJSON()));
+      dispatch(loginSuccess(result));
     } catch (error) {
       dispatch(actions.loadingEnd());
       dispatch(actions.showMessage(error));

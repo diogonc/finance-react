@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import toastr from 'toastr'
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -44,7 +43,6 @@ const submitForm = (event, props, group, newItem, updateGroup) => {
   } else {
     props.add(group);
   }
-  toastr.success(`Group saved!!`)
 
   if (!newItem)
     props.history.push('/groups');
@@ -55,7 +53,6 @@ const submitForm = (event, props, group, newItem, updateGroup) => {
 
 const deleteGroupAction = (props, uuid) => {
   props.deleteGroup(uuid);
-  toastr.success(`Group deleted!!`)
   props.history.push('/groups');
 };
 

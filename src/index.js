@@ -3,17 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import toastr from 'toastr'
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import store from './redux/store';
-
-toastr.options = {
-    hideDuration: 300,
-    timeOut: 1200,
-    positionClass: 'toast-top-full-width',
-}
 
 ReactDOM.render(
     <Provider store={store}>
