@@ -9,21 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+
 import * as actions from '../../redux/actions/groupActions';
-
-const mapStateToProps = state => {
-  return {
-    items: state.group.items
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    update: item => dispatch(actions.updateGroup(item)),
-    add: item => dispatch(actions.addGroup(item)),
-    deleteGroup: uuid => dispatch(actions.deleteGroup(uuid))
-  };
-};
 
 const styles = theme => ({
   form: {
@@ -106,7 +93,6 @@ const EditGroup = props => {
 
   return (
     <>
-      <div>text</div>
       <Typography component="h1" variant="h5">
         Agrupamento
         </Typography>
@@ -168,6 +154,20 @@ const EditGroup = props => {
       </form>
     </>
   );
+};
+
+const mapStateToProps = state => {
+  return {
+    items: state.group.items
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    update: item => dispatch(actions.updateGroup(item)),
+    add: item => dispatch(actions.addGroup(item)),
+    deleteGroup: uuid => dispatch(actions.deleteGroup(uuid))
+  };
 };
 
 

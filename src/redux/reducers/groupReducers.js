@@ -1,20 +1,11 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  items: [
-    {
-      uuid: 1,
-      priority: 1,
-      name: 'keyboard',
-      type: 1
-    },
-    {
-      uuid: 2,
-      priority: 2,
-      name: 'keyb222oard',
-      type: 2
-    }
-  ]
+  items: []
+};
+
+const load = (state, action) => {
+  return { items: action.items };
 };
 
 const add = (state, action) => {
@@ -45,6 +36,8 @@ const deleteItem = (state, action) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.LOAD_GROUP_SUCCESS:
+      return load(state, action);
     case actionTypes.ADD_GROUP:
       return add(state, action);
     case actionTypes.UPDATE_GROUP:

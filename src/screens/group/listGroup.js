@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +12,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+
 import { goTo } from '../../shared/utils';
+import * as actions from '../../redux/actions/groupActions';
 
 const styles = theme => ({
   root: {
@@ -38,15 +40,13 @@ const styles = theme => ({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    items: state.group.items
-  };
-};
 
+function ListGroup(props) {
+  const { classes, loadGroupStart } = props;
 
-function SimpleTable(props) {
-  const { classes } = props;
+  useEffect(() => {
+    loadGroupStart();
+  }, [loadGroupStart]);
 
   return (
     <>
@@ -69,12 +69,12 @@ function SimpleTable(props) {
           </TableHead>
           <TableBody>
             {props.items.map(item => (
-              <TableRow className={classes.tableRow} key={item.uuid} onClick={() => goTo(props, `groups/edit/${item.uuid}`)}>
+              <TableRow className={classes.tableRow} key={item.id} onClick={() => goTo(props, `groups/edit/${item.uuid}`)}>
                 <TableCell component="th" scope="row">
                   {item.name}
                 </TableCell>
                 <TableCell align="right">{item.priority}</TableCell>
-                <TableCell align="right">{item.categoryType}</TableCell>
+                <TableCell align="right">{item.type}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -84,4 +84,17 @@ function SimpleTable(props) {
   );
 }
 
-export default connect(mapStateToProps)(withRouter(withStyles(styles)(SimpleTable)));
+const mapStateToProps = state => {
+  return {
+    items: state.group.items
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadGroupStart: () => dispatch(actions.loadGroupStart())
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(ListGroup)));

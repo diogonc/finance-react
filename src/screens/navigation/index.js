@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -66,20 +66,6 @@ const styles = theme => ({
   },
 });
 
-const mapStateToProps = state => {
-  return {
-    ...state.navigation,
-    user: state.account.user
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    toogleNavigation: isMenuExpanded => dispatch(actions.toogleMenu(isMenuExpanded)),
-    logoff: () => dispatch(accountActions.logoff())
-  };
-};
-
 const handleAccountOptionsOpen = (event, updateNavigationState, isMenuExpanded) => {
   updateNavigationState({ anchorEl: event.currentTarget, isMenuExpanded });
 };
@@ -88,7 +74,7 @@ const handleAccountOpionsClose = (updateNavigationState, isMenuExpanded) => {
   updateNavigationState({ anchorEl: null, isMenuExpanded });
 };
 
-const logoff =  (updateNavigationState, isMenuExpanded, logoffFunction) => {
+const logoff = (updateNavigationState, isMenuExpanded, logoffFunction) => {
   logoffFunction();
   updateNavigationState({ anchorEl: null, isMenuExpanded });
 };
@@ -108,9 +94,12 @@ const Navigation = props => {
     anchorEl: props.anchorEl,
     isMenuExpanded: props.isMenuExpanded
   });
-  if (navigationState.isMenuExpanded !== props.isMenuExpanded) {
-    updateNavigationState({ isMenuExpanded: props.isMenuExpanded, anchorEl: props.anchorEl });
-  }
+
+  useEffect(() => {
+    if (navigationState.isMenuExpanded !== props.isMenuExpanded) {
+      updateNavigationState({ isMenuExpanded: props.isMenuExpanded, anchorEl: props.anchorEl });
+    }
+  });
 
   const { anchorEl, isMenuExpanded } = navigationState;
   const { classes } = props;
@@ -211,6 +200,20 @@ const Navigation = props => {
     </>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    ...state.navigation,
+    user: state.account.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toogleNavigation: isMenuExpanded => dispatch(actions.toogleMenu(isMenuExpanded)),
+    logoff: () => dispatch(accountActions.logoff())
+  };
+};
 
 export default connect(
   mapStateToProps,
