@@ -13,7 +13,7 @@ const add = (state, action) => {
     ...state.items,
     {
       ...action.item,
-      uuid: ((new Date().getTime() * 10000) + 621355968000000000)
+      id: ((new Date().getTime() * 10000) + 621355968000000000)
     }
   ];
   return { items: newList };
@@ -21,7 +21,7 @@ const add = (state, action) => {
 
 const update = (state, action) => {
   const newList = state.items.map(item => {
-    if (item.uuid === action.item.uuid) {
+    if (item.id === action.item.id) {
       return { ...action.item };
     }
     return item;
@@ -30,7 +30,7 @@ const update = (state, action) => {
 };
 
 const deleteItem = (state, action) => {
-  const newList = state.items.filter(item => action.uuid !== item.uuid);
+  const newList = state.items.filter(item => action.id !== item.id);
   return { items: newList };
 };
 

@@ -14,6 +14,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 import { goTo } from '../../shared/utils';
+import { mapTransactionType } from '../../shared/domainMaps';
 import * as actions from '../../redux/actions/groupActions';
 
 const styles = theme => ({
@@ -69,12 +70,12 @@ function ListGroup(props) {
           </TableHead>
           <TableBody>
             {props.items.map(item => (
-              <TableRow className={classes.tableRow} key={item.id} onClick={() => goTo(props, `groups/edit/${item.uuid}`)}>
+              <TableRow className={classes.tableRow} key={item.id} onClick={() => goTo(props, `groups/edit/${item.id}`)}>
                 <TableCell component="th" scope="row">
                   {item.name}
                 </TableCell>
                 <TableCell align="right">{item.priority}</TableCell>
-                <TableCell align="right">{item.type}</TableCell>
+                <TableCell align="right">{mapTransactionType(item.type)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

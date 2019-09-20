@@ -35,7 +35,7 @@ const App = (props) => {
     routes =
       <Switch>
         <Route path="/groups/new" component={EditGroup} />
-        <Route path="/groups/edit/:uuid" exact component={EditGroup} />
+        <Route path="/groups/edit/:id" exact component={EditGroup} />
         <Route path="/groups" exact render={() => <ListGroup />} />
         <Route exact path="/" render={() => <ListGroup />} />
       </Switch>

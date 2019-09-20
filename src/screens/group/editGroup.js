@@ -23,23 +23,39 @@ const styles = theme => ({
   },
 });
 
-const submitForm = (event, props, group, newItem, updateGroup) => {
+const fillItem = (props) => {
+  let item = { id: null, priority: 1, name: '', categoryType: 'debit' };
+  let id = parseInt(props.match.params.id);
+  if (id) {
+    const itemFound = props.items.find(item => item.id === id);
+    if (!!itemFound) {
+      item = itemFound;
+    }
+    else {
+      id = null;
+    }
+  }
+  return item;
+}
+
+
+const submitForm = (event, props, item, saveAndAddNewItem, updateGroup) => {
   event.preventDefault();
-  if (group.uuid) {
-    props.update(group);
+  if (item.id) {
+    props.update(item);
   } else {
-    props.add(group);
+    props.add(item);
   }
 
-  if (!newItem)
+  if (!saveAndAddNewItem)
     props.history.push('/groups');
   else {
-    updateGroup({ uuid: 0, priority: 1, name: '', categoryType: 1 })
+    updateGroup({ id: null, priority: 1, name: '', type: item.type })
   }
 };
 
-const deleteGroupAction = (props, uuid) => {
-  props.deleteGroup(uuid);
+const deleteGroupAction = (props, id) => {
+  props.deleteGroup(id);
   props.history.push('/groups');
 };
 
@@ -49,23 +65,14 @@ const goToList = (props) => {
 
 const EditGroup = props => {
   const { classes } = props;
-  let item = { uuid: 0, priority: 1, name: '', categoryType: 2 };
-  let uuid = parseInt(props.match.params.uuid);
-  if (uuid) {
-    const itemFound = props.items.find(item => item.uuid === uuid);
-    if (itemFound) {
-      item = itemFound;
-    }
-    else {
-      uuid = null;
-    }
-  }
-  const [group, updateGroup] = useState({ ...item });
-  if (item.uuid !== group.uuid) {
-    updateGroup({ ...item });
+  let initialData = fillItem(props);
+
+  const [item, updateItem] = useState({ ...initialData });
+  if (initialData.id !== item.id) {
+    updateItem({ ...initialData });
   }
 
-  const optionalButton = item.uuid && item.uuid !== 0 ?
+  const optionalButton = !!item.id ?
     (
       <Button
         type="button"
@@ -73,7 +80,7 @@ const EditGroup = props => {
         color="secondary"
         size="small"
         className={classes.button}
-        onClick={event => deleteGroupAction(props, group.uuid)}
+        onClick={event => deleteGroupAction(props, item.id)}
       >
         Excluir
     </Button>)
@@ -84,7 +91,7 @@ const EditGroup = props => {
         variant="contained"
         size="small"
         className={classes.button}
-        onClick={event => submitForm(event, props, group, true, updateGroup)}
+        onClick={event => submitForm(event, props, item, true, updateItem)}
       >
         Salvar e novo
           </Button>
@@ -96,40 +103,32 @@ const EditGroup = props => {
       <Typography component="h1" variant="h5">
         Agrupamento
         </Typography>
-      <form className={classes.form} onSubmit={event => submitForm(event, props, group, false, updateGroup)}>
-        <input type="hidden" name="id" value={group.uuid} />
+      <form className={classes.form} onSubmit={event => submitForm(event, props, item, false, updateItem)}>
+        <input type="hidden" name="id" value={item.id} />
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="email">Nome</InputLabel>
           <Input id="name" name="name" autoFocus
-            value={group.name}
-            onChange={event =>
-              updateGroup({ ...group, name: event.target.value })
-            } />
+            value={item.name}
+            onChange={event => updateItem({ ...item, name: event.target.value })} />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="priority">Prioridade</InputLabel>
           <Input name="priority" type="number" step="1" id="priority"
-            value={group.priority}
-            onChange={event =>
-              updateGroup({ ...group, priority: event.target.value })
-            } />
+            value={item.priority}
+            onChange={event => updateItem({ ...item, priority: event.target.value })} />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="categoryType">Tipo</InputLabel>
           <Select
-            value={group.categoryType}
-            onChange={event =>
-              updateGroup({ ...group, categoryType: event.target.value })
-            }
+            value={item.type}
+            onChange={event => updateItem({ ...item, type: event.target.value })}
             inputProps={{
-              name: 'categoryType',
-              id: 'categoryType',
+              name: 'type',
+              id: 'type',
             }}
           >
-            <MenuItem value={1}>Crédito</MenuItem>
-            <MenuItem value={2}>Débito</MenuItem>
-            <MenuItem value={3}>Tranferência de crédito</MenuItem>
-            <MenuItem value={4}>Tranferência de débito</MenuItem>
+            <MenuItem value='credit'>Crédito</MenuItem>
+            <MenuItem value='debit'>Débito</MenuItem>
           </Select>
         </FormControl>
         <Button
@@ -166,7 +165,7 @@ const mapDispatchToProps = dispatch => {
   return {
     update: item => dispatch(actions.updateGroup(item)),
     add: item => dispatch(actions.addGroup(item)),
-    deleteGroup: uuid => dispatch(actions.deleteGroup(uuid))
+    deleteGroup: id => dispatch(actions.deleteGroup(id))
   };
 };
 

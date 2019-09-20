@@ -36,9 +36,9 @@ export const updateGroup = group => {
   };
 };
 
-export const deleteGroup = uuid => {
+export const deleteGroup = id => {
   return {
     type: actionTypes.DELETE_GROUP,
-    uuid: uuid
+    id: id
   };
 };
