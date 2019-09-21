@@ -31,12 +31,12 @@ export const loadGroupSuccess = groups => {
   };
 };
 
-export const addGroup = group => {
+export const addGroup = (group, redirectUrl, defaultValue) => {
   return async (dispatch, getState, api) => {
     dispatch(actions.loadingStart());
     try {
       const result = await api.addGroup(group);
-      dispatch(groupAdded(result));
+      dispatch(groupAdded(result, redirectUrl, defaultValue));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -45,19 +45,21 @@ export const addGroup = group => {
   }
 };
 
-export const groupAdded = item => {
+export const groupAdded = (item, redirectUrl, defaultValue) => {
   return {
     type: actionTypes.ADD_GROUP_SUCCESS,
-    item: item
+    item: item,
+    redirectUrl,
+    defaultValue  
   };
 };
 
-export const updateGroup = group => {
+export const updateGroup = (group, redirectUrl) => {
   return async (dispatch, getState, api) => {
     dispatch(actions.loadingStart());
     try {
       const result = await api.updateGroup(group);
-      dispatch(groupUpdated(result));
+      dispatch(groupUpdated(result, redirectUrl));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -66,19 +68,20 @@ export const updateGroup = group => {
   }
 };
 
-export const groupUpdated = group => {
+export const groupUpdated = (item, redirectUrl) => {
   return {
     type: actionTypes.UPDATE_GROUP_SUCCESS,
-    item: group
+    item,
+    redirectUrl
   };
 };
 
-export const deleteGroup = group => {
+export const deleteGroup = (group, redirectUrl) => {
   return async (dispatch, getState, api) => {
     dispatch(actions.loadingStart());
     try {
       const result = await api.deleteGroup(group);
-      dispatch(groupDeleted(result));
+      dispatch(groupDeleted(result, redirectUrl));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -87,9 +90,10 @@ export const deleteGroup = group => {
   }
 };
 
-export const groupDeleted = id => {
+export const groupDeleted = (id, redirectUrl) => {
   return {
     type: actionTypes.DELETE_GROUP_SUCCESS,
-    id: id
+    id: id,
+    redirectUrl
   };
 };

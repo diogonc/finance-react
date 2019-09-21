@@ -23,8 +23,13 @@ const loadStarted = (state, action) => {
   };
 };
 
-const markListToBeUpdated = (state, action) => {
-  return { ...state, shouldBeUpdated: true };
+const handleUpdate = (state, action) => {
+  return {
+    ...state,
+    shouldBeUpdated: true,
+    redirectUrl: action.redirectUrl,
+    defaultValue: !!action.defaultValue ? action.defaultValue : null
+  };
 };
 
 
@@ -37,7 +42,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_GROUP_SUCCESS:
     case actionTypes.UPDATE_GROUP_SUCCESS:
     case actionTypes.DELETE_GROUP_SUCCESS:
-      return markListToBeUpdated(state, action);
+      return handleUpdate(state, action);
     default:
       return state;
   }

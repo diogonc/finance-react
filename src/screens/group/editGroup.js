@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
@@ -41,21 +41,23 @@ const fillItem = (props) => {
 const submitForm = (event, props, item, saveAndAddNewItem, updateGroup) => {
   event.preventDefault();
   if (item.id) {
-    props.update(item);
+    props.update(item, '/groups');
   } else {
-    props.add(item);
-  }
-
-  if (!saveAndAddNewItem)
-    props.history.push('/groups');
-  else {
-    updateGroup({ id: 0, priority: 1, name: '', type: item.type })
+    if (saveAndAddNewItem) {
+      props.add(item, null, {
+        id: 0,
+        name: '',
+        type: item.type,
+        priority: item.priority
+      });
+    } else {
+      props.add(item, saveAndAddNewItem ? null : '/groups');
+    }
   }
 };
 
 const deleteGroupAction = (props, id) => {
-  props.deleteGroup(id);
-  props.history.push('/groups');
+  props.deleteGroup(id, '/groups');
 };
 
 const goToList = (props) => {
@@ -63,13 +65,24 @@ const goToList = (props) => {
 };
 
 const EditGroup = props => {
-  const { classes } = props;
+  const { classes, redirectUrl } = props;
   let initialData = fillItem(props);
 
   const [item, updateItem] = useState({ ...initialData });
+
   if (initialData.id !== item.id) {
     updateItem({ ...initialData });
   }
+
+  useEffect(() => {
+    if (!!redirectUrl) {
+      props.history.push(redirectUrl);
+    }
+    if (item.id === 0 && !!props.defaultValue) {
+      updateItem(props.defaultValue);
+    }
+  }, [redirectUrl, props.history, props.defaultValue, item.id]);
+
 
   const optionalButton = !!item.id ?
     (
@@ -117,7 +130,7 @@ const EditGroup = props => {
             onChange={event => updateItem({ ...item, priority: event.target.value })} />
         </FormControl>
         <FormControl margin="normal" fullWidth>
-          <InputLabel htmlFor="categoryType">Tipo</InputLabel>
+          <InputLabel htmlFor="type">Tipo</InputLabel>
           <Select
             value={item.type}
             onChange={event => updateItem({ ...item, type: event.target.value })}
@@ -152,15 +165,17 @@ const EditGroup = props => {
 
 const mapStateToProps = state => {
   return {
-    items: state.group.items
+    items: state.group.items,
+    redirectUrl: state.group.redirectUrl,
+    defaultValue: state.group.defaultValue
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    update: item => dispatch(actions.updateGroup(item)),
-    add: item => dispatch(actions.addGroup(item)),
-    deleteGroup: id => dispatch(actions.deleteGroup(id))
+    update: (item, redirectUrl) => dispatch(actions.updateGroup(item, redirectUrl)),
+    add: (item, redirectUrl, defaultValue) => dispatch(actions.addGroup(item, redirectUrl, defaultValue)),
+    deleteGroup: (id, redirectUrl) => dispatch(actions.deleteGroup(id, redirectUrl))
   };
 };
 
