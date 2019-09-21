@@ -31,10 +31,60 @@ class API {
         }
     }
 
+    async addGroup(group) {
+        try {
+            return await this.postRequest('groups/', group);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async updateGroup(group) {
+        try {
+            return await this.putRequest(`groups/${group.id}`, group);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async deleteGroup(id) {
+        try {
+            return await this.deleteRequest(`groups/${id}`);
+        } catch (error) {
+            throw (error);
+        }
+    }
 
     async postRequest(path, data) {
         try {
-            const result = await this.request.post(this.baseUrl + path, data);
+            const header = _getHeaderWithToken();
+            const result = await this.request.post(this.baseUrl + path, data, header);
+            return result.data;
+        } catch (error) {
+            if (!!error && !!error.response && !!error.response.data && !!error.response.data.message) {
+                throw (error.response.data.message);
+            }
+            else throw (error);
+        }
+    }
+
+    async putRequest(path, data) {
+        try {
+            const header = _getHeaderWithToken();
+            const result = await this.request.put(this.baseUrl + path, data, header);
+            return result.data;
+        } catch (error) {
+            if (!!error && !!error.response && !!error.response.data && !!error.response.data.message) {
+                throw (error.response.data.message);
+            }
+            else throw (error);
+        }
+    }
+
+    async deleteRequest(path, data) {
+        try {
+            const header = _getHeaderWithToken();
+            const result = await this.request.delete(this.baseUrl + path, header);
             return result.data;
         } catch (error) {
             if (!!error && !!error.response && !!error.response.data && !!error.response.data.message) {
@@ -47,7 +97,7 @@ class API {
     async getRequest(path, data) {
         try {
             const header = _getHeaderWithToken();
-            const result = await this.request.get(this.baseUrl + path, { ...data, ...header });
+            const result = await this.request.get(this.baseUrl + path, { ...header, ...data });
             return result.data;
         } catch (error) {
             if (!!error && !!error.response && !!error.response.data && !!error.response.data.message) {

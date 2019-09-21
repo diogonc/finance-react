@@ -1,49 +1,43 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  items: []
+  items: [],
+  shouldBeUpdated: true,
+  lastUpdate: new Date()
 };
 
 const load = (state, action) => {
-  return { items: action.items };
+  return {
+    items: action.items,
+    shouldBeUpdated: false,
+    lastUpdate: new Date()
+  };
 };
 
-const add = (state, action) => {
-  const newList = [
-    ...state.items,
-    {
-      ...action.item,
-      id: ((new Date().getTime() * 10000) + 621355968000000000)
-    }
-  ];
-  return { items: newList };
+
+const loadStarted = (state, action) => {
+  return {
+    ...state,
+    shouldBeUpdated: false,
+    lastUpdate: new Date()
+  };
 };
 
-const update = (state, action) => {
-  const newList = state.items.map(item => {
-    if (item.id === action.item.id) {
-      return { ...action.item };
-    }
-    return item;
-  });
-  return { items: newList };
+const markListToBeUpdated = (state, action) => {
+  return { ...state, shouldBeUpdated: true };
 };
 
-const deleteItem = (state, action) => {
-  const newList = state.items.filter(item => action.id !== item.id);
-  return { items: newList };
-};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.LOAD_GROUP_STARTED:
+      return loadStarted(state, action);
     case actionTypes.LOAD_GROUP_SUCCESS:
       return load(state, action);
-    case actionTypes.ADD_GROUP:
-      return add(state, action);
-    case actionTypes.UPDATE_GROUP:
-      return update(state, action);
-    case actionTypes.DELETE_GROUP:
-      return deleteItem(state, action);
+    case actionTypes.ADD_GROUP_SUCCESS:
+    case actionTypes.UPDATE_GROUP_SUCCESS:
+    case actionTypes.DELETE_GROUP_SUCCESS:
+      return markListToBeUpdated(state, action);
     default:
       return state;
   }

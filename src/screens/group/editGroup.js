@@ -24,20 +24,19 @@ const styles = theme => ({
 });
 
 const fillItem = (props) => {
-  let item = { id: null, priority: 1, name: '', categoryType: 'debit' };
+  let item = { id: 0, priority: 1, name: '', type: 'debit' };
   let id = parseInt(props.match.params.id);
-  if (id) {
+  if (!!id) {
     const itemFound = props.items.find(item => item.id === id);
     if (!!itemFound) {
       item = itemFound;
     }
     else {
-      id = null;
+      id = 0;
     }
   }
   return item;
 }
-
 
 const submitForm = (event, props, item, saveAndAddNewItem, updateGroup) => {
   event.preventDefault();
@@ -50,7 +49,7 @@ const submitForm = (event, props, item, saveAndAddNewItem, updateGroup) => {
   if (!saveAndAddNewItem)
     props.history.push('/groups');
   else {
-    updateGroup({ id: null, priority: 1, name: '', type: item.type })
+    updateGroup({ id: 0, priority: 1, name: '', type: item.type })
   }
 };
 
@@ -105,27 +104,23 @@ const EditGroup = props => {
         </Typography>
       <form className={classes.form} onSubmit={event => submitForm(event, props, item, false, updateItem)}>
         <input type="hidden" name="id" value={item.id} />
-        <FormControl margin="normal" required fullWidth>
+        <FormControl margin="normal" fullWidth>
           <InputLabel htmlFor="email">Nome</InputLabel>
           <Input id="name" name="name" autoFocus
             value={item.name}
             onChange={event => updateItem({ ...item, name: event.target.value })} />
         </FormControl>
-        <FormControl margin="normal" required fullWidth>
+        <FormControl margin="normal" fullWidth>
           <InputLabel htmlFor="priority">Prioridade</InputLabel>
           <Input name="priority" type="number" step="1" id="priority"
             value={item.priority}
             onChange={event => updateItem({ ...item, priority: event.target.value })} />
         </FormControl>
-        <FormControl margin="normal" required fullWidth>
+        <FormControl margin="normal" fullWidth>
           <InputLabel htmlFor="categoryType">Tipo</InputLabel>
           <Select
             value={item.type}
             onChange={event => updateItem({ ...item, type: event.target.value })}
-            inputProps={{
-              name: 'type',
-              id: 'type',
-            }}
           >
             <MenuItem value='credit'>Crédito</MenuItem>
             <MenuItem value='debit'>Débito</MenuItem>

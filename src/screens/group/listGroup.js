@@ -43,11 +43,13 @@ const styles = theme => ({
 
 
 function ListGroup(props) {
-  const { classes, loadGroupStart } = props;
+  const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items } = props;
 
   useEffect(() => {
-    loadGroupStart();
-  }, [loadGroupStart]);
+    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()){
+      loadGroupStart();
+    }      
+  }, [loadGroupStart, shouldBeUpdated, lastUpdate, items]);
 
   return (
     <>
@@ -69,7 +71,7 @@ function ListGroup(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.items.map(item => (
+            {items.map(item => (
               <TableRow className={classes.tableRow} key={item.id} onClick={() => goTo(props, `groups/edit/${item.id}`)}>
                 <TableCell component="th" scope="row">
                   {item.name}
@@ -87,7 +89,9 @@ function ListGroup(props) {
 
 const mapStateToProps = state => {
   return {
-    items: state.group.items
+    items: state.group.items,
+    shouldBeUpdated: state.group.shouldBeUpdated,
+    lastUpdate: state.group.lastUpdate
   };
 };
 

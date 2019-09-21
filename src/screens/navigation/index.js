@@ -96,10 +96,8 @@ const Navigation = props => {
   });
 
   useEffect(() => {
-    if (navigationState.isMenuExpanded !== props.isMenuExpanded) {
-      updateNavigationState({ isMenuExpanded: props.isMenuExpanded, anchorEl: props.anchorEl });
-    }
-  });
+    updateNavigationState({ isMenuExpanded: props.isMenuExpanded, anchorEl: props.anchorEl });
+  }, [props.isMenuExpanded, props.anchorEl]);
 
   const { anchorEl, isMenuExpanded } = navigationState;
   const { classes } = props;
