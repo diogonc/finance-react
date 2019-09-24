@@ -18,8 +18,11 @@ const styles = theme => ({
     marginTop: theme.spacing(1),
   },
   button: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    }
   },
 });
 
@@ -89,8 +92,7 @@ const EditGroup = props => {
       <Button
         type="button"
         variant="contained"
-        color="secondary"
-        size="small"
+        color="secondary"      
         className={classes.button}
         onClick={event => deleteGroupAction(props, item.id)}
       >
@@ -101,7 +103,6 @@ const EditGroup = props => {
       <Button
         type="button"
         variant="contained"
-        size="small"
         className={classes.button}
         onClick={event => submitForm(event, props, item, true, updateItem)}
       >
@@ -143,7 +144,6 @@ const EditGroup = props => {
           type="submit"
           variant="contained"
           color="primary"
-          size="small"
           className={classes.button}
         >
           Salvar
@@ -152,7 +152,6 @@ const EditGroup = props => {
         <Button
           type="button"
           variant="contained"
-          size="small"
           className={classes.button}
           onClick={() => goToList(props)}
         >

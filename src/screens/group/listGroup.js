@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import { goTo } from '../../shared/utils';
 import { mapTransactionType } from '../../shared/domainMaps';
 import * as actions from '../../redux/actions/groupActions';
+import { FormControl } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -48,18 +49,32 @@ const styles = theme => ({
   searchIcon: {
     margin: theme.spacing(2),
     float: 'left',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    [theme.breakpoints.down('sm')]: {
+      float: 'none'
+    }
   },
   form: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: '25px 0'
+    margin: '25px 0',
+    [theme.breakpoints.down('sm')]: {
+      margin: '0',
+    }
   },
-  label: {
-    marginTop: '10px',
+  formControl: {
+    marginRight: '20px',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      marginBottom: '20px'
+    },
   },
-  field: {
-    margin: '0 20px'
+  button: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   }
 });
 
@@ -89,34 +104,34 @@ function ListGroup(props) {
 
   const filterForm = showFilters ?
     <form className={classes.form} onSubmit={event => submitSearch(event, searchFilters, props.updateFilters)}>
-      <InputLabel className={classes.label} htmlFor="email">Nome</InputLabel>
-      <Input id="name" name="name" className={classes.field} autoFocus
-        value={searchFilters.name}
-        onChange={event => updateSearchFilters({ ...searchFilters, name: event.target.value })} />
-
-      <InputLabel className={classes.label} htmlFor="type">Tipo</InputLabel>
-      <Select
-        className={classes.field}
-        value={searchFilters.type}
-        onChange={event => updateSearchFilters({ ...searchFilters, type: event.target.value })}
-      >
-        <MenuItem value='all'>Todos</MenuItem>
-        <MenuItem value='credit'>Crédito</MenuItem>
-        <MenuItem value='debit'>Débito</MenuItem>
-      </Select>
-
+      <FormControl className={classes.formControl}>
+        <InputLabel className={classes.label} htmlFor="email">Nome</InputLabel>
+        <Input id="name" name="name" className={classes.field} autoFocus
+          value={searchFilters.name}
+          onChange={event => updateSearchFilters({ ...searchFilters, name: event.target.value })} />
+      </FormControl>
+      <FormControl className={classes.formControl}>
+        <InputLabel className={classes.label} htmlFor="type">Tipo</InputLabel>
+        <Select
+          className={classes.field}
+          value={searchFilters.type}
+          onChange={event => updateSearchFilters({ ...searchFilters, type: event.target.value })}
+        >
+          <MenuItem value='all'>Todos</MenuItem>
+          <MenuItem value='credit'>Crédito</MenuItem>
+          <MenuItem value='debit'>Débito</MenuItem>
+        </Select>
+      </FormControl>
       <Button
         type="submit"
         variant="contained"
         color="primary"
-        size="small"
         className={classes.button}
       >Filtrar</Button>
       <Button
         type="button"
         variant="contained"
         color="default"
-        size="small"
         className={classes.button}
         onClick={event => resetFilters(event, props.updateFilters, updateSearchFilters)}
       >Limpar filtro</Button>
