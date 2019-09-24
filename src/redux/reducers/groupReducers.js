@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { compareStrings } from '../../shared/utils';
 
 const initialState = {
   items: [],
@@ -6,7 +7,8 @@ const initialState = {
   lastUpdate: new Date(),
   showFilters: false,
   redirectUrl: null,
-  filterFields: { name: '', type: 'all' }
+  filterFields: { name: '', type: 'all' },
+  order: { by: 'name', direction: 'asc' }
 };
 
 const load = (state, action) => {
@@ -25,6 +27,27 @@ const updateFilters = (state, action) => {
     shouldBeUpdated: true,
     showFilters: true,
     filterFields: { ...action.filters }
+  };
+};
+
+const updateGroupOrder = (state, action) => {
+  const sortedItems = state.items.sort((a, b) => {
+    switch (action.order.by) {
+      case 'priority':
+        return a.priority - b.priority;
+      case 'type':
+        return compareStrings(a.type, b.type);
+      default:
+        return compareStrings(a.name, b.name);
+    }
+  });
+  if(action.order.direction === 'desc')
+    sortedItems.reverse();
+
+  return {
+    ...state,
+    items: sortedItems,
+    order: action.order
   };
 };
 
@@ -68,6 +91,8 @@ const reducer = (state = initialState, action) => {
       return updateFilters(state, action);
     case actionTypes.TOOGLE_GROUP_FILTERS:
       return toogleFilters(state, action);
+    case actionTypes.UPDATE_GROUP_ORDER:
+      return updateGroupOrder(state, action);
     default:
       return state;
   }

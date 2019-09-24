@@ -16,6 +16,7 @@ export const loadGroupStart = () => {
       const filters = getState().group.filterFields;
       const result = await api.loadGroup(filters);
       dispatch(loadGroupSuccess(result.items));
+      dispatch(updateGroupOrder(getState().group.order));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -109,5 +110,13 @@ export const groupDeleted = (id, redirectUrl) => {
     type: actionTypes.DELETE_GROUP_SUCCESS,
     id: id,
     redirectUrl
+  };
+};
+
+
+export const updateGroupOrder = (order) => {
+  return {
+    type: actionTypes.UPDATE_GROUP_ORDER,
+    order
   };
 };

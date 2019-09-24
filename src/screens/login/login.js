@@ -18,6 +18,7 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing(3),
     marginRight: theme.spacing(1),
+    width: '100%',
   },
 });
 
@@ -59,7 +60,6 @@ const Login = props => {
           type="submit"
           variant="contained"
           color="primary"
-          size="small"
           className={classes.button}
         >
           Entrar

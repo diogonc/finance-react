@@ -7,6 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
@@ -43,12 +44,29 @@ const styles = theme => ({
       margin: theme.spacing(2),
       float: 'right'
     }
-  }
+  },
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
 });
 
+const handleOrder = (updateOrder, event, order, selectedOrder) => {
+  event.preventDefault();
+  const isAsc = order.by === selectedOrder && order.direction === 'asc';
+  var direction = isAsc ? 'desc' : 'asc';
+  updateOrder({ by: selectedOrder, direction });
+};
 
 function ListGroup(props) {
-  const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items } = props;
+  const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items, order, updateOrder } = props;
 
   useEffect(() => {
     if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()) {
@@ -71,14 +89,61 @@ function ListGroup(props) {
         <Table className={classes.table} stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>Nome</TableCell>
-              <TableCell align="right">Prioridade</TableCell>
-              <TableCell align="right">Tipo</TableCell>
+              <TableCell
+                sortDirection={order.by === 'name' ? order.direction : false}
+              >
+                <TableSortLabel
+                  active={order.by === 'name'}
+                  direction={order.direction}
+                  onClick={event => handleOrder(updateOrder, event, order, 'name')}
+                >
+                  Nome
+                  {order.by === 'name' ? (
+                    <span className={classes.visuallyHidden}>
+                      {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                    </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align="right"
+                sortDirection={order.by === 'name' ? order.direction : false}
+              >
+                <TableSortLabel
+                  active={order.by === 'priority'}
+                  direction={order.direction}
+                  onClick={event => handleOrder(updateOrder, event, order, 'priority')}
+                >
+                  Prioridade
+                  {order.by === 'priority' ? (
+                    <span className={classes.visuallyHidden}>
+                      {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                    </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align="right"
+                sortDirection={order.by === 'type' ? order.direction : false}
+              >
+                <TableSortLabel
+                  active={order.by === 'type'}
+                  direction={order.direction}
+                  onClick={event => handleOrder(updateOrder, event, order, 'type')}
+                >
+                  Tipo
+                  {order.by === 'type' ? (
+                    <span className={classes.visuallyHidden}>
+                      {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                    </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map(item => (
-              <TableRow className={classes.tableRow} key={item.id} onClick={() => goTo(props, `groups/edit/${item.id}`)}>
+              <TableRow hover className={classes.tableRow} key={item.id} onClick={() => goTo(props, `groups/edit/${item.id}`)}>
                 <TableCell component="th" scope="row">
                   {item.name}
                 </TableCell>
@@ -97,13 +162,15 @@ const mapStateToProps = state => {
   return {
     items: state.group.items,
     shouldBeUpdated: state.group.shouldBeUpdated,
-    lastUpdate: state.group.lastUpdate
+    lastUpdate: state.group.lastUpdate,
+    order: state.group.order
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadGroupStart: () => dispatch(actions.loadGroupStart())
+    loadGroupStart: () => dispatch(actions.loadGroupStart()),
+    updateOrder: (order) => dispatch(actions.updateGroupOrder(order))
   };
 };
 

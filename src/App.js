@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Navigation from './screens/navigation/';
 import ListGroup from './screens/group/listGroup';
 import EditGroup from './screens/group/editGroup';
@@ -40,7 +40,7 @@ const App = (props) => {
         <Route exact path="/" render={() => <ListGroup />} />
       </Switch>
   } else if (props.location.pathname !== '/login') {
-    props.history.push('/login');
+    routes = <Redirect to='/login' />
   }
 
 
