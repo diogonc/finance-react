@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
@@ -12,17 +12,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import SearchIcon from '@material-ui/icons/Search';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
 
 import { goTo } from '../../shared/utils';
 import { mapTransactionType } from '../../shared/domainMaps';
 import * as actions from '../../redux/actions/groupActions';
-import { FormControl } from '@material-ui/core';
+import FilterGroup from './filterGroup';
 
 const styles = theme => ({
   root: {
@@ -49,98 +43,18 @@ const styles = theme => ({
       margin: theme.spacing(2),
       float: 'right'
     }
-  },
-  searchIcon: {
-    margin: theme.spacing(2),
-    float: 'left',
-    cursor: 'pointer',
-    minHeight: '30px',
-    [theme.breakpoints.down('sm')]: {
-      float: 'none'
-    }
-  },
-  form: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    [theme.breakpoints.down('sm')]: {
-      margin: '0',
-    }
-  },
-  formControl: {
-    marginRight: '20px',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      marginBottom: '20px'
-    },
-  },
-  button: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
   }
 });
 
-function submitSearch(event, searchFilters, updateFilters) {
-  event.preventDefault();
-  updateFilters(searchFilters);
-};
-
-function resetFilters(event, updateFilters, updateSearchFilters) {
-  event.preventDefault();
-  const searchFilters = { name: '', type: 'all' };
-  updateSearchFilters(searchFilters);
-  updateFilters(searchFilters);
-}
 
 function ListGroup(props) {
-  const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items, showFilters, filterFields } = props;
-
-  const [searchFilters, updateSearchFilters] = useState({ ...filterFields });
+  const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items } = props;
 
   useEffect(() => {
     if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()) {
       loadGroupStart();
     }
   }, [loadGroupStart, shouldBeUpdated, lastUpdate, items]);
-
-
-  const filterForm = showFilters ?
-    <form className={classes.form} onSubmit={event => submitSearch(event, searchFilters, props.updateFilters)}>
-      <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="email">Nome</InputLabel>
-        <Input id="name" name="name" className={classes.field} autoFocus
-          value={searchFilters.name}
-          onChange={event => updateSearchFilters({ ...searchFilters, name: event.target.value })} />
-      </FormControl>
-      <FormControl className={classes.formControl}>
-        <InputLabel className={classes.label} htmlFor="type">Tipo</InputLabel>
-        <Select
-          className={classes.field}
-          value={searchFilters.type}
-          onChange={event => updateSearchFilters({ ...searchFilters, type: event.target.value })}
-        >
-          <MenuItem value='all'>Todos</MenuItem>
-          <MenuItem value='credit'>Crédito</MenuItem>
-          <MenuItem value='debit'>Débito</MenuItem>
-        </Select>
-      </FormControl>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        className={classes.button}
-      >Filtrar</Button>
-      <Button
-        type="button"
-        variant="contained"
-        color="default"
-        className={classes.button}
-        onClick={event => resetFilters(event, props.updateFilters, updateSearchFilters)}
-      >Limpar filtro</Button>
-    </form>
-    : null;
 
   return (
     <>
@@ -152,10 +66,7 @@ function ListGroup(props) {
       <Typography variant="h4" gutterBottom component="h2">
         Agrupamentos
       </Typography>
-      <SearchIcon className={classes.searchIcon}
-        onClick={props.toogleFilters}
-      ></SearchIcon>
-      {filterForm}
+      <FilterGroup></FilterGroup>
       <Paper className={classes.root}>
         <Table className={classes.table} stickyHeader>
           <TableHead>
@@ -186,19 +97,14 @@ const mapStateToProps = state => {
   return {
     items: state.group.items,
     shouldBeUpdated: state.group.shouldBeUpdated,
-    lastUpdate: state.group.lastUpdate,
-    filterFields: state.group.filterFields,
-    showFilters: state.group.showFilters
+    lastUpdate: state.group.lastUpdate
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadGroupStart: () => dispatch(actions.loadGroupStart()),
-    updateFilters: (filterFields) => dispatch(actions.updateFilters(filterFields)),
-    toogleFilters: () => dispatch(actions.toogleFilters())
+    loadGroupStart: () => dispatch(actions.loadGroupStart())
   };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(ListGroup)));
