@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import SearchIcon from '@material-ui/icons/Search';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 
 import { goTo } from '../../shared/utils';
 import { mapTransactionType } from '../../shared/domainMaps';
@@ -39,17 +45,83 @@ const styles = theme => ({
       float: 'right'
     }
   },
+  searchIcon: {
+    margin: theme.spacing(2),
+    float: 'left',
+    cursor: 'pointer'
+  },
+  form: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    margin: '25px 0'
+  },
+  label: {
+    marginTop: '10px',
+  },
+  field: {
+    margin: '0 20px'
+  }
 });
 
+function submitSearch(event, searchFilters, updateFilters) {
+  event.preventDefault();
+  updateFilters(searchFilters);
+};
+
+function resetFilters(event, updateFilters, updateSearchFilters) {
+  event.preventDefault();
+  const searchFilters = { name: '', type: 'all' };
+  updateSearchFilters(searchFilters);
+  updateFilters(searchFilters);
+}
 
 function ListGroup(props) {
-  const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items } = props;
+  const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items, showFilters, filterFields } = props;
+
+  const [searchFilters, updateSearchFilters] = useState({ ...filterFields });
 
   useEffect(() => {
-    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()){
+    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()) {
       loadGroupStart();
-    }      
+    }
   }, [loadGroupStart, shouldBeUpdated, lastUpdate, items]);
+
+
+  const filterForm = showFilters ?
+    <form className={classes.form} onSubmit={event => submitSearch(event, searchFilters, props.updateFilters)}>
+      <InputLabel className={classes.label} htmlFor="email">Nome</InputLabel>
+      <Input id="name" name="name" className={classes.field} autoFocus
+        value={searchFilters.name}
+        onChange={event => updateSearchFilters({ ...searchFilters, name: event.target.value })} />
+
+      <InputLabel className={classes.label} htmlFor="type">Tipo</InputLabel>
+      <Select
+        className={classes.field}
+        value={searchFilters.type}
+        onChange={event => updateSearchFilters({ ...searchFilters, type: event.target.value })}
+      >
+        <MenuItem value='all'>Todos</MenuItem>
+        <MenuItem value='credit'>Crédito</MenuItem>
+        <MenuItem value='debit'>Débito</MenuItem>
+      </Select>
+
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        size="small"
+        className={classes.button}
+      >Filtrar</Button>
+      <Button
+        type="button"
+        variant="contained"
+        color="default"
+        size="small"
+        className={classes.button}
+        onClick={event => resetFilters(event, props.updateFilters, updateSearchFilters)}
+      >Limpar filtro</Button>
+    </form>
+    : null;
 
   return (
     <>
@@ -61,8 +133,12 @@ function ListGroup(props) {
       <Typography variant="h4" gutterBottom component="h2">
         Agrupamentos
       </Typography>
+      <SearchIcon className={classes.searchIcon}
+        onClick={props.toogleFilters}
+      ></SearchIcon>
+      {filterForm}
       <Paper className={classes.root}>
-        <Table className={classes.table}>
+        <Table className={classes.table} stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell>Nome</TableCell>
@@ -91,13 +167,17 @@ const mapStateToProps = state => {
   return {
     items: state.group.items,
     shouldBeUpdated: state.group.shouldBeUpdated,
-    lastUpdate: state.group.lastUpdate
+    lastUpdate: state.group.lastUpdate,
+    filterFields: state.group.filterFields,
+    showFilters: state.group.showFilters
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadGroupStart: () => dispatch(actions.loadGroupStart())
+    loadGroupStart: () => dispatch(actions.loadGroupStart()),
+    updateFilters: (filterFields) => dispatch(actions.updateFilters(filterFields)),
+    toogleFilters: () => dispatch(actions.toogleFilters())
   };
 };
 

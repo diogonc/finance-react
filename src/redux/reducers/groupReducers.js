@@ -3,14 +3,33 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
   items: [],
   shouldBeUpdated: true,
-  lastUpdate: new Date()
+  lastUpdate: new Date(),
+  showFilters: false,
+  filterFields: { name: '', type: 'all' }
 };
 
 const load = (state, action) => {
   return {
+    ...state,
     items: action.items,
     shouldBeUpdated: false,
     lastUpdate: new Date()
+  };
+};
+
+const updateFilters = (state, action) => {
+  return {
+    ...state,
+    shouldBeUpdated: true,
+    showFilters: true,
+    filterFields: { ...action.filters }
+  };
+};
+
+const toogleFilters = (state, action) => {
+  return {
+    ...state,
+    showFilters: !state.showFilters,
   };
 };
 
@@ -43,6 +62,10 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_GROUP_SUCCESS:
     case actionTypes.DELETE_GROUP_SUCCESS:
       return handleUpdate(state, action);
+    case actionTypes.UPDATE_GROUP_FILTERS:
+      return updateFilters(state, action);
+    case actionTypes.TOOGLE_GROUP_FILTERS:
+      return toogleFilters(state, action);
     default:
       return state;
   }

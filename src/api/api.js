@@ -1,8 +1,12 @@
 import axios from 'axios';
+import qs from 'qs';
+
+import { removeEmptyProperties } from '../shared/utils';
 
 class API {
-    constructor(axios, token) {
+    constructor(axios, qs, token) {
         this.request = axios;
+        this.qs = qs;
         this.baseUrl = 'http://localhost:3000/api/';
         this.token = token;
     }
@@ -23,9 +27,9 @@ class API {
     }
 
     //group
-    async loadGroup() {
+    async loadGroup(filters) {
         try {
-            return await this.getRequest('groups/');
+            return await this.getRequest('groups/', filters);
         } catch (error) {
             throw (error);
         }
@@ -97,7 +101,8 @@ class API {
     async getRequest(path, data) {
         try {
             const header = _getHeaderWithToken();
-            const result = await this.request.get(this.baseUrl + path, { ...header, ...data });
+            const queryString = this.qs.stringify(removeEmptyProperties(data));
+            const result = await this.request.get(this.baseUrl + path + '?' + queryString, { ...header });
             return result.data;
         } catch (error) {
             if (!!error && !!error.response && !!error.response.data && !!error.response.data.message) {
@@ -108,7 +113,7 @@ class API {
     }
 }
 
-export default new API(axios);
+export default new API(axios, qs);
 
 function _getHeaderWithToken() {
     const account = JSON.parse(localStorage.getItem('account'));

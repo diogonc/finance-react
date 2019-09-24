@@ -13,7 +13,8 @@ export const loadGroupStart = () => {
     dispatch(actions.loadingStart());
     try {
       dispatch(loadGroupStarted());
-      const result = await api.loadGroup();
+      const filters = getState().group.filterFields;
+      const result = await api.loadGroup(filters);
       dispatch(loadGroupSuccess(result.items));
       dispatch(actions.loadingEnd());
     } catch (error) {
@@ -28,6 +29,19 @@ export const loadGroupSuccess = groups => {
   return {
     type: actionTypes.LOAD_GROUP_SUCCESS,
     items: groups
+  };
+};
+
+export const updateFilters = (newFilters) => {
+  return {
+    type: actionTypes.UPDATE_GROUP_FILTERS,
+    filters: newFilters
+  };
+}
+
+export const toogleFilters = () => {
+  return {
+    type: actionTypes.TOOGLE_GROUP_FILTERS
   };
 };
 
@@ -50,7 +64,7 @@ export const groupAdded = (item, redirectUrl, defaultValue) => {
     type: actionTypes.ADD_GROUP_SUCCESS,
     item: item,
     redirectUrl,
-    defaultValue  
+    defaultValue
   };
 };
 
