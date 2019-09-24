@@ -28,6 +28,9 @@ const styles = theme => ({
   root: {
     width: '100%',
     overflowX: 'auto',
+    marginTop: '10px',
+    position: 'relative',
+    top: '10px'
   },
   table: {
     minWidth: 700,
@@ -36,6 +39,7 @@ const styles = theme => ({
     cursor: 'pointer',
   },
   fab: {
+    zIndex: '5',
     [theme.breakpoints.down('sm')]: {
       position: 'absolute',
       bottom: theme.spacing(2),
@@ -50,6 +54,7 @@ const styles = theme => ({
     margin: theme.spacing(2),
     float: 'left',
     cursor: 'pointer',
+    minHeight: '30px',
     [theme.breakpoints.down('sm')]: {
       float: 'none'
     }
@@ -57,7 +62,6 @@ const styles = theme => ({
   form: {
     display: 'flex',
     flexWrap: 'wrap',
-    margin: '25px 0',
     [theme.breakpoints.down('sm')]: {
       margin: '0',
     }
