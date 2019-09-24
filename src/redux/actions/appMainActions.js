@@ -13,7 +13,6 @@ export const closeMessage = () => {
   };
 };
 
-
 export const loadingStart = () => {
   return { type: actionTypes.LOADING_START }
 };

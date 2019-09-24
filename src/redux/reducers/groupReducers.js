@@ -5,6 +5,7 @@ const initialState = {
   shouldBeUpdated: true,
   lastUpdate: new Date(),
   showFilters: false,
+  redirectUrl: null,
   filterFields: { name: '', type: 'all' }
 };
 
@@ -13,6 +14,7 @@ const load = (state, action) => {
     ...state,
     items: action.items,
     shouldBeUpdated: false,
+    redirectUrl: null,
     lastUpdate: new Date()
   };
 };
