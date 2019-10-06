@@ -12,7 +12,8 @@ import ListGroup from './screens/group/list';
 import EditGroup from './screens/group/edit';
 import ListAccount from './screens/account/list';
 import EditAccount from './screens/account/edit';
-
+import ListCategory from './screens/category/list';
+import EditCategory from './screens/category/edit';
 
 const styles = theme => ({
   root: {
@@ -44,12 +45,14 @@ const App = (props) => {
         <Route path="/accounts/new" component={EditAccount} />
         <Route path="/accounts/edit/:id" exact component={EditAccount} />
         <Route path="/accounts" exact render={() => <ListAccount />} />
+        <Route path="/categories/new" component={EditCategory} />
+        <Route path="/categories/edit/:id" exact component={EditCategory} />
+        <Route path="/categories" exact render={() => <ListCategory />} />
         <Route exact path="/" render={() => <ListGroup />} />
       </Switch>
   } else if (props.location.pathname !== '/login') {
     routes = <Redirect to='/login' />
   }
-
 
   let loadingComponent = null;
   if (props.appMain.loading) {

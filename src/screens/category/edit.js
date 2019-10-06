@@ -10,7 +10,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import * as actions from '../../redux/actions/financeAccountActions';
+import * as actions from '../../redux/actions/categoryActions';
+import * as groupActions from '../../redux/actions/groupActions';
 
 const styles = theme => ({
   form: {
@@ -27,7 +28,7 @@ const styles = theme => ({
 });
 
 const fillItem = (props) => {
-  let item = { id: 0, priority: 1, name: '', userId: props.currentUserId };
+  let item = { id: 0, priority: 1, name: '', type: 'debit', groupId: null };
   let id = parseInt(props.match.params.id);
   if (!!id) {
     const itemFound = props.items.find(item => item.id === id);
@@ -44,31 +45,32 @@ const fillItem = (props) => {
 const submitForm = (event, props, item, saveAndAddNewItem) => {
   event.preventDefault();
   if (item.id) {
-    props.update(item, '/accounts');
+    props.update(item, '/categories');
   } else {
     if (saveAndAddNewItem) {
       props.add(item, null, {
         id: 0,
         name: '',
-        userId: props.currentUserId,
-        priority: item.priority
+        groupId: item.groupId,
+        priority: item.priority,
+        type: item.type
       });
     } else {
-      props.add(item, '/accounts');
+      props.add(item, '/categories');
     }
   }
 };
 
 const deleteAction = (props, id) => {
-  props.delete(id, '/accounts');
+  props.delete(id, '/categories');
 };
 
 const goToList = (props) => {
-  props.history.push('/accounts');
+  props.history.push('/categories');
 };
 
 const Edit = props => {
-  const { classes, redirectUrl, users } = props;
+  const { classes, redirectUrl, groups, loadGroups } = props;
   let initialData = fillItem(props);
 
   const [item, updateItem] = useState({ ...initialData });
@@ -84,7 +86,11 @@ const Edit = props => {
     if (item.id === 0 && !!props.defaultValue) {
       updateItem(props.defaultValue);
     }
-  }, [redirectUrl, props.history, props.defaultValue, item.id]);
+    if (groups.length === 0) {
+      loadGroups();
+    }
+
+  }, [redirectUrl, props.history, props.defaultValue, item.id, loadGroups, groups.length]);
 
 
   const optionalButton = !!item.id ?
@@ -110,12 +116,12 @@ const Edit = props => {
           </Button>
     );
 
-  const userOptions = users.map(user => <MenuItem key={user.id} value={user.id}>{`${user.name}`}</MenuItem>);
+  const groupOptions = groups.map(group => <MenuItem key={group.id} value={group.id}>{`${group.name}`}</MenuItem>);
 
   return (
     <>
       <Typography component="h1" variant="h5">
-        Conta
+        Categoria
         </Typography>
       <form className={classes.form} onSubmit={event => submitForm(event, props, item, false, updateItem)}>
         <input type="hidden" name="id" value={item.id} />
@@ -132,12 +138,24 @@ const Edit = props => {
             onChange={event => updateItem({ ...item, priority: event.target.value })} />
         </FormControl>
         <FormControl margin="normal" fullWidth>
-          <InputLabel htmlFor="userID">Responsável</InputLabel>
+          <InputLabel htmlFor="type">Tipo</InputLabel>
           <Select
-            value={item.userId}
-            onChange={event => updateItem({ ...item, userId: event.target.value })}
+            value={item.type}
+            onChange={event => updateItem({ ...item, type: event.target.value })}
           >
-            {userOptions}
+            <MenuItem value='credit'>Crédito</MenuItem>
+            <MenuItem value='credit-transfer'>Transferência de crédito</MenuItem>
+            <MenuItem value='debit'>Débito</MenuItem>
+            <MenuItem value='debit-transfer'>Transferência de débito</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl margin="normal" fullWidth>
+          <InputLabel htmlFor="groupId">Agrupamento</InputLabel>
+          <Select
+            value={!!item.groupId ? item.groupId : 0}
+            onChange={event => updateItem({ ...item, groupId: event.target.value })}
+          >
+            {groupOptions}
           </Select>
         </FormControl>
         <Button
@@ -164,22 +182,21 @@ const Edit = props => {
 
 const mapStateToProps = state => {
   return {
-    items: state.financeAccount.items,
-    redirectUrl: state.financeAccount.redirectUrl,
-    defaultValue: state.financeAccount.defaultValue,
-    users: state.account.users,
-    currentUserId: state.account.user.id
+    items: state.category.items,
+    redirectUrl: state.category.redirectUrl,
+    defaultValue: state.category.defaultValue,
+    groups: state.group.items
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    update: (item, redirectUrl) => dispatch(actions.updateAccount(item, redirectUrl)),
-    add: (item, redirectUrl, defaultValue) => dispatch(actions.addAccount(item, redirectUrl, defaultValue)),
-    delete: (id, redirectUrl) => dispatch(actions.deleteAccount(id, redirectUrl))
+    update: (item, redirectUrl) => dispatch(actions.updateCategory(item, redirectUrl)),
+    add: (item, redirectUrl, defaultValue) => dispatch(actions.addCategory(item, redirectUrl, defaultValue)),
+    delete: (id, redirectUrl) => dispatch(actions.deleteCategory(id, redirectUrl)),
+    loadGroups: () => dispatch(groupActions.loadGroupStart())
   };
 };
-
 
 export default connect(
   mapStateToProps,

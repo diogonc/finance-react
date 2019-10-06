@@ -99,6 +99,43 @@ class API {
         }
     }
 
+    //category
+    async loadCategory(filters) {
+        try {
+            if (!!filters && !!filters.userId && filters.userId === 'all') {
+                delete filters.userId;
+            }
+
+            return await this.getRequest('categories/', filters);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async addCategory(item) {
+        try {
+            return await this.postRequest('categories/', item);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async updateCategory(item) {
+        try {
+            return await this.putRequest(`categories/${item.id}`, item);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async deleteCategory(id) {
+        try {
+            return await this.deleteRequest(`categories/${id}`);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
     //users
     async loadUsers() {
         try {

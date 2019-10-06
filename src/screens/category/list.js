@@ -15,7 +15,8 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 import { goTo } from '../../shared/utils';
-import * as actions from '../../redux/actions/financeAccountActions';
+import { mapTransactionType } from '../../shared/domainMaps';
+import * as actions from '../../redux/actions/categoryActions';
 import Filter from './filter';
 
 const styles = theme => ({
@@ -77,11 +78,11 @@ function List(props) {
     <>
       <Fab color="primary" aria-label="Add"
         className={classes.fab}
-        onClick={() => goTo(props, 'accounts/new')}>
+        onClick={() => goTo(props, 'categories/new')}>
         <AddIcon />
       </Fab>
       <Typography variant="h4" gutterBottom component="h2">
-        Contas
+        Categorias
       </Typography>
       <Filter></Filter>
       <Paper className={classes.root}>
@@ -98,6 +99,23 @@ function List(props) {
                 >
                   Nome
                   {order.by === 'name' ? (
+                    <span className={classes.visuallyHidden}>
+                      {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                    </span>
+                  ) : null}
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align="left"
+                sortDirection={order.by === 'type' ? order.direction : false}
+              >
+                <TableSortLabel
+                  active={order.by === 'type'}
+                  direction={order.direction}
+                  onClick={event => handleOrder(updateOrder, event, order, 'type')}
+                >
+                  Tipo
+                  {order.by === 'type' ? (
                     <span className={classes.visuallyHidden}>
                       {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>
@@ -126,12 +144,12 @@ function List(props) {
                 sortDirection={order.by === 'userId' ? order.direction : false}
               >
                 <TableSortLabel
-                  active={order.by === 'userId'}
+                  active={order.by === 'groupId'}
                   direction={order.direction}
-                  onClick={event => handleOrder(updateOrder, event, order, 'userId')}
+                  onClick={event => handleOrder(updateOrder, event, order, 'groupId')}
                 >
-                  Responsável
-                  {order.by === 'userId' ? (
+                  Agrupamento
+                  {order.by === 'groupId' ? (
                     <span className={classes.visuallyHidden}>
                       {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>
@@ -142,12 +160,13 @@ function List(props) {
           </TableHead>
           <TableBody>
             {items.map(item => (
-              <TableRow hover className={classes.tableRow} key={item.id} onClick={() => goTo(props, `accounts/edit/${item.id}`)}>
+              <TableRow hover className={classes.tableRow} key={item.id} onClick={() => goTo(props, `categories/edit/${item.id}`)}>
                 <TableCell component="th" scope="row">
                   {item.name}
                 </TableCell>
+                <TableCell align="left">{mapTransactionType(item.type)}</TableCell>
                 <TableCell align="right">{item.priority}</TableCell>
-                <TableCell align="right">{item.user.name}</TableCell>
+                <TableCell align="right">{!!item.groupId ?  item.group.name: ''}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -159,17 +178,17 @@ function List(props) {
 
 const mapStateToProps = state => {
   return {
-    items: state.financeAccount.items,
-    shouldBeUpdated: state.financeAccount.shouldBeUpdated,
-    lastUpdate: state.financeAccount.lastUpdate,
-    order: state.financeAccount.order
+    items: state.category.items,
+    shouldBeUpdated: state.category.shouldBeUpdated,
+    lastUpdate: state.category.lastUpdate,
+    order: state.category.order
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadStart: () => dispatch(actions.loadAccountStart()),
-    updateOrder: (order) => dispatch(actions.updateAccountOrder(order))
+    loadStart: () => dispatch(actions.loadCategoryStart()),
+    updateOrder: (order) => dispatch(actions.updateCategoryOrder(order))
   };
 };
 
