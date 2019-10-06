@@ -19,12 +19,23 @@ const logoff = () => {
   return {};
 }
 
+const storeUsers = (state, action) => {
+  const userData = {
+    ...state,
+    users: action.items
+  };
+  localStorage.setItem('account', JSON.stringify(userData));
+  return userData
+}
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_SUCCESS:
       return loginSuccess(state, action);
     case actionTypes.LOGOFF:
       return logoff();
+    case actionTypes.STORE_USERS:
+      return storeUsers(state, action);
     default:
       return state;
   }

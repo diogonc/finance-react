@@ -29,23 +29,26 @@ class API {
     //group
     async loadGroup(filters) {
         try {
+            if (!!filters && !!filters.type && filters.type === 'all') {
+                delete filters.type;
+            }
             return await this.getRequest('groups/', filters);
         } catch (error) {
             throw (error);
         }
     }
 
-    async addGroup(group) {
+    async addGroup(item) {
         try {
-            return await this.postRequest('groups/', group);
+            return await this.postRequest('groups/', item);
         } catch (error) {
             throw (error);
         }
     }
 
-    async updateGroup(group) {
+    async updateGroup(item) {
         try {
-            return await this.putRequest(`groups/${group.id}`, group);
+            return await this.putRequest(`groups/${item.id}`, item);
         } catch (error) {
             throw (error);
         }
@@ -58,6 +61,53 @@ class API {
             throw (error);
         }
     }
+
+    //account
+    async loadAccount(filters) {
+        try {
+            if (!!filters && !!filters.userId && filters.userId === 'all') {
+                delete filters.userId;
+            }
+
+            return await this.getRequest('accounts/', filters);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async addAccount(item) {
+        try {
+            return await this.postRequest('accounts/', item);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async updateAccount(item) {
+        try {
+            return await this.putRequest(`accounts/${item.id}`, item);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async deleteAccount(id) {
+        try {
+            return await this.deleteRequest(`accounts/${id}`);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    //users
+    async loadUsers() {
+        try {
+            return await this.getRequest('users/');
+        } catch (error) {
+            throw (error);
+        }
+    }
+
 
     async postRequest(path, data) {
         try {

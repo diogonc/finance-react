@@ -2,13 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Navigation from './screens/navigation/';
-import ListGroup from './screens/group/listGroup';
-import EditGroup from './screens/group/editGroup';
 import Login from './screens/login/login';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 import Message from './components/message';
+
+import ListGroup from './screens/group/list';
+import EditGroup from './screens/group/edit';
+import ListAccount from './screens/account/list';
+import EditAccount from './screens/account/edit';
+
 
 const styles = theme => ({
   root: {
@@ -37,6 +41,9 @@ const App = (props) => {
         <Route path="/groups/new" component={EditGroup} />
         <Route path="/groups/edit/:id" exact component={EditGroup} />
         <Route path="/groups" exact render={() => <ListGroup />} />
+        <Route path="/accounts/new" component={EditAccount} />
+        <Route path="/accounts/edit/:id" exact component={EditAccount} />
+        <Route path="/accounts" exact render={() => <ListAccount />} />
         <Route exact path="/" render={() => <ListGroup />} />
       </Switch>
   } else if (props.location.pathname !== '/login') {

@@ -4,10 +4,12 @@ export const goTo = (props, url) => {
 
 export const removeEmptyProperties = (myObj) => {
     var newObject = {};
-    Object.keys(myObj).forEach((key) => {
-        if (myObj[key] !== '')
-            newObject[key] = myObj[key];
-    });
+    if (!!myObj) {
+        Object.keys(myObj).forEach((key) => {
+            if (myObj[key] !== '')
+                newObject[key] = myObj[key];
+        });
+    }
     return newObject;
 }
 

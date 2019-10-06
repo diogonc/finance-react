@@ -18,7 +18,7 @@ import ListItems from './listItems';
 import * as actions from '../../redux/actions/navigationActions';
 import * as accountActions from '../../redux/actions/accountActions';
 
-const drawerWidth = 190;
+const drawerWidth = 250;
 
 const styles = theme => ({
   toolbar: {

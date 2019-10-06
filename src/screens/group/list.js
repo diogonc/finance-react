@@ -17,7 +17,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { goTo } from '../../shared/utils';
 import { mapTransactionType } from '../../shared/domainMaps';
 import * as actions from '../../redux/actions/groupActions';
-import FilterGroup from './filterGroup';
+import Filter from './filter';
 
 const styles = theme => ({
   root: {
@@ -84,7 +84,7 @@ function ListGroup(props) {
       <Typography variant="h4" gutterBottom component="h2">
         Agrupamentos
       </Typography>
-      <FilterGroup></FilterGroup>
+      <Filter></Filter>
       <Paper className={classes.root}>
         <Table className={classes.table} stickyHeader>
           <TableHead>

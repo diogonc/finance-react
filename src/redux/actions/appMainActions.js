@@ -1,6 +1,9 @@
 import * as actionTypes from './actionTypes';
 
 export const showMessage = message => {
+  if (message.error)
+    message = message.error;
+
   return {
     type: actionTypes.SHOW_MESSAGE,
     message: message

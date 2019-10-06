@@ -1,23 +1,23 @@
 import * as actionTypes from './actionTypes';
-import * as actions from '../actions/appMainActions';
-import * as accountActions from '../actions/accountActions';
+import * as actions from './appMainActions';
+import * as accountActions from './accountActions';
 
-export const loadGroupStarted = groups => {
+export const loadAccountStarted = items => {
   return {
-    type: actionTypes.LOAD_GROUP_STARTED,
-    items: groups
+    type: actionTypes.LOAD_ACCOUNT_STARTED,
+    items: items
   };
 };
 
-export const loadGroupStart = () => {
+export const loadAccountStart = () => {
   return async (dispatch, getState, api) => {
     dispatch(actions.loadingStart());
     try {
-      dispatch(loadGroupStarted());
-      const filters = getState().group.filterFields;
-      const result = await api.loadGroup(filters);
-      dispatch(loadGroupSuccess(result.items));
-      dispatch(updateGroupOrder(getState().group.order));
+      dispatch(loadAccountStarted());
+      const filters = getState().financeAccount.filterFields;
+      const result = await api.loadAccount(filters);
+      dispatch(loadAccountSuccess(result.items));
+      dispatch(updateAccountOrder(getState().financeAccount.order));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -31,32 +31,32 @@ export const loadGroupStart = () => {
   }
 };
 
-export const loadGroupSuccess = groups => {
+export const loadAccountSuccess = items => {
   return {
-    type: actionTypes.LOAD_GROUP_SUCCESS,
-    items: groups
+    type: actionTypes.LOAD_ACCOUNT_SUCCESS,
+    items: items
   };
 };
 
 export const updateFilters = (newFilters) => {
   return {
-    type: actionTypes.UPDATE_GROUP_FILTERS,
+    type: actionTypes.UPDATE_ACCOUNT_FILTERS,
     filters: newFilters
   };
 }
 
 export const toogleFilters = () => {
   return {
-    type: actionTypes.TOOGLE_GROUP_FILTERS
+    type: actionTypes.TOOGLE_ACCOUNT_FILTERS
   };
 };
 
-export const addGroup = (group, redirectUrl, defaultValue) => {
+export const addAccount = (item, redirectUrl, defaultValue) => {
   return async (dispatch, getState, api) => {
     dispatch(actions.loadingStart());
     try {
-      const result = await api.addGroup(group);
-      dispatch(groupAdded(result, redirectUrl, defaultValue));
+      const result = await api.addAccount(item);
+      dispatch(accountAdded(result, redirectUrl, defaultValue));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -69,21 +69,21 @@ export const addGroup = (group, redirectUrl, defaultValue) => {
   }
 };
 
-export const groupAdded = (item, redirectUrl, defaultValue) => {
+export const accountAdded = (item, redirectUrl, defaultValue) => {
   return {
-    type: actionTypes.ADD_GROUP_SUCCESS,
+    type: actionTypes.ADD_ACCOUNT_SUCCESS,
     item: item,
     redirectUrl,
     defaultValue
   };
 };
 
-export const updateGroup = (group, redirectUrl) => {
+export const updateAccount = (item, redirectUrl) => {
   return async (dispatch, getState, api) => {
     dispatch(actions.loadingStart());
     try {
-      const result = await api.updateGroup(group);
-      dispatch(groupUpdated(result, redirectUrl));
+      const result = await api.updateAccount(item);
+      dispatch(accountUpdated(result, redirectUrl));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -92,20 +92,20 @@ export const updateGroup = (group, redirectUrl) => {
   }
 };
 
-export const groupUpdated = (item, redirectUrl) => {
+export const accountUpdated = (item, redirectUrl) => {
   return {
-    type: actionTypes.UPDATE_GROUP_SUCCESS,
+    type: actionTypes.UPDATE_ACCOUNT_SUCCESS,
     item,
     redirectUrl
   };
 };
 
-export const deleteGroup = (group, redirectUrl) => {
+export const deleteAccount = (item, redirectUrl) => {
   return async (dispatch, getState, api) => {
     dispatch(actions.loadingStart());
     try {
-      const result = await api.deleteGroup(group);
-      dispatch(groupDeleted(result, redirectUrl));
+      const result = await api.deleteAccount(item);
+      dispatch(accountDeleted(result, redirectUrl));
       dispatch(actions.loadingEnd());
     } catch (error) {
       dispatch(actions.loadingEnd());
@@ -114,18 +114,18 @@ export const deleteGroup = (group, redirectUrl) => {
   }
 };
 
-export const groupDeleted = (id, redirectUrl) => {
+export const accountDeleted = (id, redirectUrl) => {
   return {
-    type: actionTypes.DELETE_GROUP_SUCCESS,
+    type: actionTypes.DELETE_ACCOUNT_SUCCESS,
     id: id,
     redirectUrl
   };
 };
 
 
-export const updateGroupOrder = (order) => {
+export const updateAccountOrder = (order) => {
   return {
-    type: actionTypes.UPDATE_GROUP_ORDER,
+    type: actionTypes.UPDATE_ACCOUNT_ORDER,
     order
   };
 };
