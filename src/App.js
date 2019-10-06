@@ -14,6 +14,8 @@ import ListAccount from './screens/account/list';
 import EditAccount from './screens/account/edit';
 import ListCategory from './screens/category/list';
 import EditCategory from './screens/category/edit';
+import ListTransaction from './screens/transaction/list';
+import EditTransaction from './screens/transaction/edit';
 
 const styles = theme => ({
   root: {
@@ -48,6 +50,9 @@ const App = (props) => {
         <Route path="/categories/new" component={EditCategory} />
         <Route path="/categories/edit/:id" exact component={EditCategory} />
         <Route path="/categories" exact render={() => <ListCategory />} />
+        <Route path="/transactions/new" component={EditTransaction} />
+        <Route path="/transactions/edit/:id" exact component={EditTransaction} />
+        <Route path="/transactions" exact render={() => <ListTransaction />} />
         <Route exact path="/" render={() => <ListGroup />} />
       </Switch>
   } else if (props.location.pathname !== '/login') {

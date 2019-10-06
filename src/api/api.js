@@ -136,6 +136,43 @@ class API {
         }
     }
 
+     //transaction
+     async loadTransaction(filters) {
+        try {
+            if (!!filters && !!filters.userId && filters.userId === 'all') {
+                delete filters.userId;
+            }
+
+            return await this.getRequest('transactions/', filters);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async addTransaction(item) {
+        try {
+            return await this.postRequest('transactions/', item);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async updateTransaction(item) {
+        try {
+            return await this.putRequest(`transactions/${item.id}`, item);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async deleteTransaction(id) {
+        try {
+            return await this.deleteRequest(`transactions/${id}`);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
     //users
     async loadUsers() {
         try {
