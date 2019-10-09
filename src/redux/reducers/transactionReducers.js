@@ -1,14 +1,22 @@
 import * as actionTypes from '../actions/actionTypes';
 import { compareStrings } from '../../shared/utils';
+import { dateToString } from '../../shared/formatters';
 
+var today = new Date();
 const initialState = {
   items: [],
   shouldBeUpdated: true,
-  lastUpdate: new Date(),
+  lastUpdate: today,
   showFilters: false,
   redirectUrl: null,
-  filterFields: { name: '', userId: 'all' },
-  order: { by: 'name', direction: 'asc' }
+  filterFields: {
+    description: '',
+    categories: [],
+    financeAccounts: [],
+    from: dateToString(new Date(today.getFullYear(), today.getMonth(), 1)),
+    to: dateToString(new Date(today.getFullYear(), today.getMonth() + 1, 0))
+  },
+  order: { by: 'date', direction: 'desc' }
 };
 
 const load = (state, action) => {
@@ -35,10 +43,18 @@ const updateTransactionOrder = (state, action) => {
     switch (action.order.by) {
       case 'priority':
         return a.priority - b.priority;
-      case 'type':
-        return compareStrings(a.type, b.type);
+      case 'account':
+        return compareStrings(a.financeAccount.name, b.financeAccount.name);
+      case 'description':
+        return compareStrings(a.description, b.description);
+      case 'category':
+        return compareStrings(a.category.name, b.category.name);
+      case 'date':
+        return compareStrings(a.date, b.date);
+      case 'value':
+        return compareStrings(a.value, b.value);
       default:
-        return compareStrings(a.name, b.name);
+        return compareStrings(a.date, b.date);
     }
   });
   if (action.order.direction === 'desc')

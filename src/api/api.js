@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-import { removeEmptyProperties } from '../shared/utils';
+import { removeEmptyProperties, convertArrayToString } from '../shared/utils';
 
 class API {
     constructor(axios, qs, token) {
@@ -225,7 +225,7 @@ class API {
     async getRequest(path, data) {
         try {
             const header = _getHeaderWithToken();
-            const queryString = this.qs.stringify(removeEmptyProperties(data));
+            const queryString = this.qs.stringify(removeEmptyProperties(convertArrayToString(data)));
             const result = await this.request.get(this.baseUrl + path + '?' + queryString, { ...header });
             return result.data;
         } catch (error) {

@@ -123,15 +123,15 @@ function List(props) {
               </TableCell>
               <TableCell
                 align="right"
-                sortDirection={order.by === 'userId' ? order.direction : false}
+                sortDirection={order.by === 'user' ? order.direction : false}
               >
                 <TableSortLabel
-                  active={order.by === 'userId'}
+                  active={order.by === 'user'}
                   direction={order.direction}
-                  onClick={event => handleOrder(updateOrder, event, order, 'userId')}
+                  onClick={event => handleOrder(updateOrder, event, order, 'user')}
                 >
                   Responsável
-                  {order.by === 'userId' ? (
+                  {order.by === 'user' ? (
                     <span className={classes.visuallyHidden}>
                       {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
@@ -10,8 +10,11 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
-import * as actions from '../../redux/actions/categoryActions';
+import * as actions from '../../redux/actions/transactionActions';
+import * as accountActions from '../../redux/actions/financeAccountActions';
+import * as categoryActions from '../../redux/actions/categoryActions';
 import { FormControl } from '@material-ui/core';
+import { dateToString } from '../../shared/formatters';
 
 const styles = theme => ({
     searchIcon: {
@@ -36,6 +39,7 @@ const styles = theme => ({
             width: '100%',
             marginBottom: '20px'
         },
+        minWidth: '180px'
     },
     button: {
         marginTop: theme.spacing(1),
@@ -53,36 +57,73 @@ function submitSearch(event, searchFilters, updateFilters) {
 
 function resetFilters(event, updateFilters, updateSearchFilters) {
     event.preventDefault();
-    const searchFilters = { name: '', type: 'all' };
+    var today = new Date();
+    const searchFilters = {
+        description: '',
+        categories: [],
+        financeAccounts: [],
+        from: dateToString(new Date(today.getFullYear(), today.getMonth(), 1)),
+        to: dateToString(new Date(today.getFullYear(), today.getMonth() + 1, 0))
+    };
     updateSearchFilters(searchFilters);
     updateFilters(searchFilters);
 }
 
 function Filter(props) {
-    const { classes, showFilters, filterFields } = props;
+    const { classes, showFilters, filterFields, accounts, categories, loadAccounts, loadCategories } = props;
 
     const [searchFilters, updateSearchFilters] = useState({ ...filterFields });
+
+    useEffect(() => {
+        if (accounts.length === 0) {
+            loadAccounts();
+        }
+        if (categories.length === 0) {
+            loadCategories();
+        }
+    }, [loadAccounts, accounts, loadCategories, categories]);
 
     const filterForm = showFilters ?
         <form className={classes.form} onSubmit={event => submitSearch(event, searchFilters, props.updateFilters)}>
             <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor="name">Nome</InputLabel>
-                <Input id="name" name="name" className={classes.field} autoFocus
-                    value={searchFilters.name}
-                    onChange={event => updateSearchFilters({ ...searchFilters, name: event.target.value })} />
+                <InputLabel htmlFor="from">Início</InputLabel>
+                <Input id="from" name="from" autoFocus type="date"
+                    value={searchFilters.from}
+                    onChange={event => updateSearchFilters({ ...searchFilters, from: event.target.value })} />
             </FormControl>
             <FormControl className={classes.formControl}>
-                <InputLabel className={classes.label} htmlFor="type">Tipo</InputLabel>
+                <InputLabel htmlFor="to">Fim</InputLabel>
+                <Input id="to" name="to" type="date"
+                    value={searchFilters.to}
+                    onChange={event => updateSearchFilters({ ...searchFilters, to: event.target.value })} />
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel className={classes.label} htmlFor="description">Descrição</InputLabel>
+                <Input id="description" name="description" className={classes.field} autoFocus
+                    value={searchFilters.description}
+                    onChange={event => updateSearchFilters({ ...searchFilters, description: event.target.value })} />
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel className={classes.label} htmlFor="categories">Categoria</InputLabel>
                 <Select
+                    multiple
+                    labelWidth={400}
                     className={classes.field}
-                    value={searchFilters.type}
-                    onChange={event => updateSearchFilters({ ...searchFilters, type: event.target.value })}
+                    value={searchFilters.categories}
+                    onChange={event => updateSearchFilters({ ...searchFilters, categories: event.target.value })}
                 >
-                    <MenuItem value='all'>Todos</MenuItem>
-                    <MenuItem value='credit'>Crédito</MenuItem>
-                    <MenuItem value='credit-transfer'>Transferência de crédito</MenuItem>
-                    <MenuItem value='debit'>Débito</MenuItem>
-                    <MenuItem value='debit-transfer'>Transferência de débito</MenuItem>
+                    {categories.map(category => <MenuItem key={category.id} value={category.id}>{`${category.name}`}</MenuItem>)}
+                </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel className={classes.label} htmlFor="accounts">Conta</InputLabel>
+                <Select
+                    multiple
+                    className={classes.field}
+                    value={searchFilters.financeAccounts}
+                    onChange={event => updateSearchFilters({ ...searchFilters, financeAccounts: event.target.value })}
+                >
+                    {accounts.map(account => <MenuItem key={account.id} value={account.id}>{`${account.name}`}</MenuItem>)}
                 </Select>
             </FormControl>
             <Button
@@ -113,15 +154,19 @@ function Filter(props) {
 
 const mapStateToProps = state => {
     return {
-        filterFields: state.category.filterFields,
-        showFilters: state.category.showFilters
+        filterFields: state.transaction.filterFields,
+        showFilters: state.transaction.showFilters,
+        accounts: state.financeAccount.items,
+        categories: state.category.items
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         updateFilters: (filterFields) => dispatch(actions.updateFilters(filterFields)),
-        toogleFilters: () => dispatch(actions.toogleFilters())
+        toogleFilters: () => dispatch(actions.toogleFilters()),
+        loadAccounts: () => dispatch(accountActions.loadAccountStart()),
+        loadCategories: () => dispatch(categoryActions.loadCategoryStart())
     };
 };
 

@@ -144,12 +144,12 @@ function List(props) {
                 sortDirection={order.by === 'userId' ? order.direction : false}
               >
                 <TableSortLabel
-                  active={order.by === 'groupId'}
+                  active={order.by === 'group'}
                   direction={order.direction}
-                  onClick={event => handleOrder(updateOrder, event, order, 'groupId')}
+                  onClick={event => handleOrder(updateOrder, event, order, 'group')}
                 >
                   Agrupamento
-                  {order.by === 'groupId' ? (
+                  {order.by === 'group' ? (
                     <span className={classes.visuallyHidden}>
                       {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>

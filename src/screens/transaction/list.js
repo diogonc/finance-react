@@ -90,15 +90,15 @@ function List(props) {
           <TableHead>
             <TableRow>
               <TableCell
-                sortDirection={order.by === 'accountName' ? order.direction : false}
+                sortDirection={order.by === 'account' ? order.direction : false}
               >
                 <TableSortLabel
-                  active={order.by === 'accountName'}
+                  active={order.by === 'account'}
                   direction={order.direction}
-                  onClick={event => handleOrder(updateOrder, event, order, 'accountName')}
+                  onClick={event => handleOrder(updateOrder, event, order, 'account')}
                 >
                   Conta
-                  {order.by === 'accountName' ? (
+                  {order.by === 'account' ? (
                     <span className={classes.visuallyHidden}>
                       {order.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>

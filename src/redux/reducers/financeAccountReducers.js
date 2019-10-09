@@ -37,11 +37,13 @@ const updateAccountOrder = (state, action) => {
         return a.priority - b.priority;
       case 'type':
         return compareStrings(a.type, b.type);
+      case 'user':
+        return compareStrings(a.user.name, b.user.name);
       default:
         return compareStrings(a.name, b.name);
     }
   });
-  if(action.order.direction === 'desc')
+  if (action.order.direction === 'desc')
     sortedItems.reverse();
 
   return {

@@ -37,6 +37,10 @@ const updateCategoryOrder = (state, action) => {
         return a.priority - b.priority;
       case 'type':
         return compareStrings(a.type, b.type);
+      case 'group':
+        var groupA = !!a.group ? a.group.name : '';
+        var groupB = !!b.group ? b.group.name : '';
+        return compareStrings(groupA, groupB);
       default:
         return compareStrings(a.name, b.name);
     }
