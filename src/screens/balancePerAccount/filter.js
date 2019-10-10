@@ -10,7 +10,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
-import * as actions from '../../redux/actions/transactionActions';
+import * as actions from '../../redux/actions/balancePerAccountActions';
 import * as accountActions from '../../redux/actions/financeAccountActions';
 import * as categoryActions from '../../redux/actions/categoryActions';
 import { FormControl } from '@material-ui/core';

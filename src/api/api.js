@@ -136,8 +136,8 @@ class API {
         }
     }
 
-     //transaction
-     async loadTransaction(filters) {
+    //transaction
+    async loadTransaction(filters) {
         try {
             if (!!filters && !!filters.userId && filters.userId === 'all') {
                 delete filters.userId;
@@ -182,6 +182,14 @@ class API {
         }
     }
 
+    //reports
+    async loadBalancePerAccount() {
+        try {
+            return await this.getRequest('reports/balance-per-account');
+        } catch (error) {
+            throw (error);
+        }
+    }
 
     async postRequest(path, data) {
         try {
