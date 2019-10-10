@@ -13,6 +13,7 @@ const initialState = {
     description: '',
     categories: [],
     financeAccounts: [],
+    users: [],
     from: dateToString(new Date(today.getFullYear(), today.getMonth(), 1)),
     to: dateToString(new Date(today.getFullYear(), today.getMonth() + 1, 0))
   },

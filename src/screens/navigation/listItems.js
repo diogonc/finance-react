@@ -38,19 +38,19 @@ const ListItems = (props) => (
             </ListItemIcon>
             <ListItemText primary="Transações" />
         </ListItem>
-        <ListItem button onClick={() => goTo(props, 'balancePerAccount')}>
+        <ListItem button onClick={() => goTo(props, 'balance-per-account')}>
             <ListItemIcon>
                 <AccountBalanceIcon />
             </ListItemIcon>
             <ListItemText primary="Saldo por conta" />
         </ListItem>
-        <ListItem button onClick={() => goTo(props, 'balancePerCategory')}>
+        <ListItem button onClick={() => goTo(props, 'balance-per-category')}>
             <ListItemIcon>
                 <BarChartIcon />
             </ListItemIcon>
             <ListItemText primary="Saldo por categoria" />
         </ListItem>
-        <ListItem button onClick={() => goTo(props, 'futureBalance')}>
+        <ListItem button onClick={() => goTo(props, 'future-balance')}>
             <ListItemIcon>
                 <TimelineIcon />
             </ListItemIcon>

@@ -171,8 +171,8 @@ function Filter(props) {
 
 const mapStateToProps = state => {
     return {
-        filterFields: state.transaction.filterFields,
-        showFilters: state.transaction.showFilters,
+        filterFields: state.balancePerAccount.filterFields,
+        showFilters: state.balancePerAccount.showFilters,
         accounts: state.financeAccount.items,
         categories: state.category.items,
         users: state.account.users
