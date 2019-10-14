@@ -2,16 +2,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
+import {Table, TableBody, TableCell, TableHead, TableFooter, TableRow, TableSortLabel, Paper, Typography, Fab} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 import { goTo } from '../../shared/utils';
@@ -73,6 +65,13 @@ function List(props) {
       loadStart();
     }
   }, [loadStart, shouldBeUpdated, lastUpdate, items]);
+
+  const total = items.reduce((total, transaction) => {
+    if (transaction.category.type === 'credit' || transaction.category.type === 'credit-transfer')
+      return total + transaction.value;
+    else
+      return total - transaction.value;
+  }, 0)
 
   return (
     <>
@@ -188,6 +187,17 @@ function List(props) {
               </TableRow>
             ))}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={4}>
+                Total
+              </TableCell>
+              <TableCell align="right">
+                {total}
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+
         </Table>
       </Paper>
     </>

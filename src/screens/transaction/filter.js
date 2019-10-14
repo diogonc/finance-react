@@ -4,11 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
+import { Input, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 
 import * as actions from '../../redux/actions/transactionActions';
 import * as accountActions from '../../redux/actions/financeAccountActions';

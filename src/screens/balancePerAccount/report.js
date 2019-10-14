@@ -2,14 +2,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import {Table, TableBody, TableCell, TableHead, TableFooter, TableRow, Paper, Typography} from '@material-ui/core';
 
 import { formatMoney } from '../../shared/formatters';
 import * as actions from '../../redux/actions/balancePerAccountActions';
@@ -55,7 +49,7 @@ const styles = theme => ({
 });
 
 function showUserTable(userKey, result, classes) {
-  const userData = result[userKey];
+  const userData = result.users[userKey];
   const accountKeys = Object.keys(userData.accounts);
   return <Paper className={classes.root} key={userKey}>
     <Table className={classes.table}>
@@ -79,6 +73,14 @@ function showUserTable(userKey, result, classes) {
           </TableRow>
         )}
       </TableBody>
+      <TableFooter>
+        <TableRow hover className={classes.tableRow}>
+          <TableCell>
+            Total
+          </TableCell>
+          <TableCell align="right">{formatMoney(userData.total)}</TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
   </Paper>;
 }
@@ -91,8 +93,9 @@ function Report(props) {
       loadStart();
     }
   }, [loadStart, shouldBeUpdated, lastUpdate, result]);
-
-  var users = Object.keys(result);
+  if (!result.users)
+    return <div>No data</div>;
+  var users = Object.keys(result.users);
   return (
     <>
       <Typography variant="h4" gutterBottom component="h2">
@@ -100,6 +103,29 @@ function Report(props) {
       </Typography>
       <Filter></Filter>
       {users.map((userKey) => showUserTable(userKey, result, classes))}
+
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                Todos Responsáveis
+              </TableCell>
+              <TableCell align="right">
+                Saldo
+          </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow hover className={classes.tableRow}>
+              <TableCell component="th" scope="row">
+                Total
+              </TableCell>
+              <TableCell align="right">{formatMoney(result.total)}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </Paper>
     </>
   );
 }

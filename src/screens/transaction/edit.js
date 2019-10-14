@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import Typography from '@material-ui/core/Typography';
+import { Button, FormControl, Input, InputLabel, Typography, Select, MenuItem } from '@material-ui/core';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import * as actions from '../../redux/actions/transactionActions';
 import * as accountActions from '../../redux/actions/financeAccountActions';
