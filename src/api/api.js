@@ -183,9 +183,12 @@ class API {
     }
 
     //reports
-    async loadBalancePerAccount() {
+    async loadBalancePerAccount(filters) {
         try {
-            return await this.getRequest('reports/balance-per-account');
+            if (!!filters && !!filters.userId && filters.userId === 'all') {
+                delete filters.userId;
+            }
+            return await this.getRequest('reports/balance-per-account', filters);
         } catch (error) {
             throw (error);
         }

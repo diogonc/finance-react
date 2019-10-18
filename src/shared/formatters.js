@@ -1,5 +1,5 @@
 export const formatMoney = value => {
-  return parseFloat(value).toFixed(2);
+  return parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$& ');
 };
 
 export const formatBrDate = date => {

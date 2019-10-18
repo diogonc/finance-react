@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
-import {Table, TableBody, TableCell, TableHead, TableFooter, TableRow, TableSortLabel, Paper, Typography, Fab} from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TableFooter, TableRow, TableSortLabel, Paper, Typography, Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 
 import { goTo } from '../../shared/utils';
@@ -183,7 +183,7 @@ function List(props) {
                 <TableCell align="left">{item.category.name}</TableCell>
                 <TableCell align="left">{item.description}</TableCell>
                 <TableCell align="left">{formatBrDate(item.date)}</TableCell>
-                <TableCell align="right">{formatMoney(item.value)}</TableCell>
+                <TableCell align="right">{((item.category.type === 'debit' || item.category.type === 'debit-transfer') ? '-' : '') + formatMoney(item.value)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -193,7 +193,7 @@ function List(props) {
                 Total
               </TableCell>
               <TableCell align="right">
-                {total}
+                {formatMoney(total)}
               </TableCell>
             </TableRow>
           </TableFooter>

@@ -65,7 +65,6 @@ function resetFilters(event, updateFilters, updateSearchFilters) {
         categories: [],
         financeAccounts: [],
         users: [],
-        from: dateToString(new Date(today.getFullYear(), today.getMonth(), 1)),
         to: dateToString(new Date(today.getFullYear(), today.getMonth() + 1, 0))
     };
     updateSearchFilters(searchFilters);
@@ -89,13 +88,7 @@ function Filter(props) {
     const filterForm = showFilters ?
         <form className={classes.form} onSubmit={event => submitSearch(event, searchFilters, props.updateFilters)}>
             <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="from">Início</InputLabel>
-                <Input id="from" name="from" autoFocus type="date"
-                    value={searchFilters.from}
-                    onChange={event => updateSearchFilters({ ...searchFilters, from: event.target.value })} />
-            </FormControl>
-            <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="to">Fim</InputLabel>
+                <InputLabel htmlFor="to">Data</InputLabel>
                 <Input id="to" name="to" type="date"
                     value={searchFilters.to}
                     onChange={event => updateSearchFilters({ ...searchFilters, to: event.target.value })} />
