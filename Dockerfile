@@ -18,8 +18,6 @@ ADD ./ /var/www/finance-react
 
 RUN npm i npm@latest -g
 
-RUN npm i npm@latest -g
-
 RUN cd /var/www/finance-react && \
 	NODE_ENV=development && \
     npm install

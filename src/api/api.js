@@ -7,7 +7,9 @@ class API {
     constructor(axios, qs, token) {
         this.request = axios;
         this.qs = qs;
-        this.baseUrl = 'http://localhost:3000/api/';
+        this.baseUrl = process.env.APP_HOST && process.env.APP_PORT
+            ? `${process.env.APP_HOST}:${process.env.APP_PORT}/api/`
+            : 'http://localhost:3000/api/';
         this.token = token;
     }
 
