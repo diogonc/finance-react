@@ -67,10 +67,14 @@ function List(props) {
   }, [loadStart, shouldBeUpdated, lastUpdate, items]);
 
   const total = items.reduce((total, transaction) => {
-    if (transaction.category.type === 'credit' || transaction.category.type === 'credit-transfer')
-      return total + transaction.value;
-    else
-      return total - transaction.value;
+    if (!!transaction && !!transaction.category && !!transaction.category.type) {
+      if (transaction.category.type === 'credit' || transaction.category.type === 'credit-transfer')
+        return total + transaction.value;
+      else
+        return total - transaction.value;
+    }
+    return total;
+
   }, 0)
 
   return (

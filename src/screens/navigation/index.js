@@ -148,6 +148,9 @@ const Navigation = props => {
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
               Financeiro
             </Typography>
+            <Typography align="right">
+              {props.user.name}
+            </Typography>
             <IconButton
               aria-owns={isMenuExpanded ? 'material-appbar' : undefined}
               aria-haspopup="true"

@@ -49,3 +49,9 @@ export const toogleFilters = () => {
     type: actionTypes.TOOGLE_BALANCE_PER_ACCOUNT_FILTERS
   };
 };
+
+export const clear = () => {
+  return {
+    type: actionTypes.CLEAR_BALANCE_PER_ACCOUNT
+  };
+};

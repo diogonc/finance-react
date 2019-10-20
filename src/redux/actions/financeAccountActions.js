@@ -129,3 +129,9 @@ export const updateAccountOrder = (order) => {
     order
   };
 };
+
+export const clear = () => {
+  return {
+    type: actionTypes.CLEAR_ACCOUNT
+  };
+};

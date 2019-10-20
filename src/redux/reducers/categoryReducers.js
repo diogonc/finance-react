@@ -11,6 +11,10 @@ const initialState = {
   order: { by: 'name', direction: 'asc' }
 };
 
+const clear = () => {
+  return initialState;
+}
+
 const load = (state, action) => {
   return {
     ...state,
@@ -97,6 +101,8 @@ const reducer = (state = initialState, action) => {
       return toogleFilters(state, action);
     case actionTypes.UPDATE_CATEGORY_ORDER:
       return updateCategoryOrder(state, action);
+    case actionTypes.CLEAR_CATEGORY:
+      return clear();
     default:
       return state;
   }

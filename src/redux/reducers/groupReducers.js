@@ -11,6 +11,10 @@ const initialState = {
   order: { by: 'name', direction: 'asc' }
 };
 
+const clear = () => {
+  return initialState;
+}
+
 const load = (state, action) => {
   return {
     ...state,
@@ -58,7 +62,6 @@ const toogleFilters = (state, action) => {
   };
 };
 
-
 const loadStarted = (state, action) => {
   return {
     ...state,
@@ -93,6 +96,8 @@ const reducer = (state = initialState, action) => {
       return toogleFilters(state, action);
     case actionTypes.UPDATE_GROUP_ORDER:
       return updateGroupOrder(state, action);
+    case actionTypes.CLEAR_GROUP:
+      return clear();
     default:
       return state;
   }

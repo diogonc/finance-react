@@ -129,3 +129,9 @@ export const updateTransactionOrder = (order) => {
     order
   };
 };
+
+export const clear = () => {
+  return {
+    type: actionTypes.CLEAR_TRANSACTION
+  };
+};

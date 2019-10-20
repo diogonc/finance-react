@@ -55,7 +55,7 @@ const App = (props) => {
         <Route path="/transactions/edit/:id" exact component={EditTransaction} />
         <Route path="/transactions" exact render={() => <ListTransaction />} />
         <Route path="/balance-per-account" component={BalancePerAccount} />
-        <Route exact path="/" render={() => <ListGroup />} />
+        <Route path="/" render={() => <EditTransaction />} />
       </Switch>
   } else if (props.location.pathname !== '/login') {
     routes = <Redirect to='/login' />

@@ -129,3 +129,10 @@ export const updateCategoryOrder = (order) => {
     order
   };
 };
+
+
+export const clear = () => {
+  return {
+    type: actionTypes.CLEAR_CATEGORY
+  };
+};

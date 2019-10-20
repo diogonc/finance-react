@@ -1,5 +1,10 @@
 import * as actionTypes from './actionTypes';
 import * as actions from '../actions/appMainActions';
+import * as balancePerAccountActions from '../actions/balancePerAccountActions';
+import * as categoryActions from '../actions/categoryActions';
+import * as financeAccountActions from '../actions/financeAccountActions';
+import * as groupActions from '../actions/groupActions';
+import * as transactionActions from '../actions/transactionActions';
 
 export const loginSuccess = loginPayload => {
   return {
@@ -9,6 +14,18 @@ export const loginSuccess = loginPayload => {
 };
 
 export const logoff = () => {
+  return (dispatch) => {
+    dispatch(logoffUser());
+    dispatch(balancePerAccountActions.clear());
+    dispatch(categoryActions.clear());
+    dispatch(financeAccountActions.clear());
+    dispatch(groupActions.clear());
+    dispatch(transactionActions.clear());
+    dispatch(actions.loadingEnd());
+  }
+};
+
+export const logoffUser = () => {
   return {
     type: actionTypes.LOGOFF
   };

@@ -11,6 +11,10 @@ const initialState = {
   order: { by: 'name', direction: 'asc' }
 };
 
+const clear = () => {
+  return initialState;
+}
+
 const load = (state, action) => {
   return {
     ...state,
@@ -95,6 +99,8 @@ const reducer = (state = initialState, action) => {
       return toogleFilters(state, action);
     case actionTypes.UPDATE_ACCOUNT_ORDER:
       return updateAccountOrder(state, action);
+    case actionTypes.CLEAR_ACCOUNT:
+      return clear();
     default:
       return state;
   }

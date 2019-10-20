@@ -20,6 +20,10 @@ const initialState = {
   order: { by: 'date', direction: 'desc' }
 };
 
+const clear = () => {
+  return initialState;
+}
+
 const load = (state, action) => {
   return {
     ...state,
@@ -110,6 +114,8 @@ const reducer = (state = initialState, action) => {
       return toogleFilters(state, action);
     case actionTypes.UPDATE_TRANSACTION_ORDER:
       return updateTransactionOrder(state, action);
+    case actionTypes.CLEAR_TRANSACTION:
+      return clear();
     default:
       return state;
   }

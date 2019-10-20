@@ -16,6 +16,10 @@ const initialState = {
   }
 };
 
+const clear = () => {
+  return initialState;
+}
+
 const load = (state, action) => {
   return {
     ...state,
@@ -59,6 +63,8 @@ const reducer = (state = initialState, action) => {
       return updateFilters(state, action);
     case actionTypes.TOOGLE_BALANCE_PER_ACCOUNT_FILTERS:
       return toogleFilters(state, action);
+    case actionTypes.CLEAR_BALANCE_PER_ACCOUNT:
+      return clear();
     default:
       return state;
   }

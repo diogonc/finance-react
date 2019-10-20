@@ -129,3 +129,9 @@ export const updateGroupOrder = (order) => {
     order
   };
 };
+
+export const clear = () => {
+  return {
+    type: actionTypes.CLEAR_GROUP
+  };
+};
