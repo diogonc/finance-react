@@ -9,7 +9,7 @@ class API {
         this.qs = qs;
         this.baseUrl = process.env.APP_HOST && process.env.APP_PORT
             ? `${process.env.APP_HOST}:${process.env.APP_PORT}/api/`
-            : 'http://localhost:3000/api/';
+            : 'http://191.237.254.162:3000/api/';
         this.token = token;
     }
 
