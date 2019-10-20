@@ -7,7 +7,7 @@ const initialState = {
   items: [],
   shouldBeUpdated: true,
   lastUpdate: today,
-  showFilters: false,
+  showFilters: true,
   redirectUrl: null,
   filterFields: {
     description: '',

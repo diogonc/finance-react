@@ -6,7 +6,7 @@ const initialState = {
   result: {},
   shouldBeUpdated: true,
   lastUpdate: today,
-  showFilters: false,
+  showFilters: true,
   filterFields: {
     description: '',
     categories: [],
