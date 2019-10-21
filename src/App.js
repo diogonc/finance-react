@@ -16,6 +16,7 @@ import ListCategory from './screens/category/list';
 import EditCategory from './screens/category/edit';
 import ListTransaction from './screens/transaction/list';
 import EditTransaction from './screens/transaction/edit';
+import TransferTransaction from './screens/transaction/transfer';
 import BalancePerAccount from './screens/balancePerAccount/report';
 
 const styles = theme => ({
@@ -53,6 +54,7 @@ const App = (props) => {
         <Route path="/categories" exact render={() => <ListCategory />} />
         <Route path="/transactions/new" component={EditTransaction} />
         <Route path="/transactions/edit/:id" exact component={EditTransaction} />
+        <Route path="/transactions/transfer" component={TransferTransaction} />
         <Route path="/transactions" exact render={() => <ListTransaction />} />
         <Route path="/balance-per-account" component={BalancePerAccount} />
         <Route path="*" render={() => <EditTransaction />} />

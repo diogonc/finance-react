@@ -79,6 +79,11 @@ function List(props) {
 
   return (
     <>
+    <Fab aria-label="Transfer"
+        className={classes.fab}
+        onClick={() => goTo(props, 'transactions/transfer')}>
+        <AddIcon />
+      </Fab>
       <Fab color="primary" aria-label="Add"
         className={classes.fab}
         onClick={() => goTo(props, 'transactions/new')}>

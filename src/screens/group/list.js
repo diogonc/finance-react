@@ -61,7 +61,7 @@ function ListGroup(props) {
   const { classes, loadGroupStart, shouldBeUpdated, lastUpdate, items, order, updateOrder } = props;
 
   useEffect(() => {
-    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()) {
+    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 10 < new Date().getTime()) {
       loadGroupStart();
     }
   }, [loadGroupStart, shouldBeUpdated, lastUpdate, items]);

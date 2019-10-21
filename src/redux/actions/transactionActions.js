@@ -69,6 +69,47 @@ export const addTransaction = (item, redirectUrl, defaultValue) => {
   }
 };
 
+export const addTransfer = (item, redirectUrl) => {
+  return async (dispatch, getState, api) => {
+    dispatch(actions.loadingStart());
+    try {
+      const creditTransactionData = {
+        'description': item.description,
+        'value': item.value,
+        'categoryId': item.creditTransferCategoryId,
+        'financeAccountId': item.financeAccountDestinationId,
+        'date': item.date
+      };
+      const debitTransactionData = {
+        'description': item.description,
+        'value': item.value,
+        'categoryId': item.debitTransferCategoryId,
+        'financeAccountId': item.financeAccountOriginId,
+        'date': item.date
+      };
+      const creditResult = await api.addTransaction(creditTransactionData);
+      const debitResult = await api.addTransaction(debitTransactionData);
+      dispatch(transferAdded([creditResult, debitResult], redirectUrl));
+      dispatch(actions.loadingEnd());
+    } catch (error) {
+      dispatch(actions.loadingEnd());
+
+      if (error.isAxiosError)
+        return dispatch(accountActions.logoff());
+
+      dispatch(actions.showMessage(error));
+    }
+  }
+};
+
+export const transferAdded = (items, redirectUrl) => {
+  return {
+    type: actionTypes.ADD_TRANSFER_SUCCESS,
+    items: items,
+    redirectUrl
+  };
+};
+
 export const transactionAdded = (item, redirectUrl, defaultValue) => {
   return {
     type: actionTypes.ADD_TRANSACTION_SUCCESS,

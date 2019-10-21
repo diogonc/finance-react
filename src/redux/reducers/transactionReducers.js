@@ -97,7 +97,6 @@ const handleUpdate = (state, action) => {
   };
 };
 
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOAD_TRANSACTION_STARTED:
@@ -107,6 +106,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_TRANSACTION_SUCCESS:
     case actionTypes.UPDATE_TRANSACTION_SUCCESS:
     case actionTypes.DELETE_TRANSACTION_SUCCESS:
+    case actionTypes.ADD_TRANSFER_SUCCESS:
       return handleUpdate(state, action);
     case actionTypes.UPDATE_TRANSACTION_FILTERS:
       return updateFilters(state, action);
