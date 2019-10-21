@@ -8,7 +8,7 @@ const initialState = {
   showFilters: true,
   redirectUrl: null,
   filterFields: { name: '', userId: 'all' },
-  order: { by: 'name', direction: 'asc' }
+  order: { by: 'none', direction: 'asc' }
 };
 
 const clear = () => {
@@ -43,8 +43,11 @@ const updateAccountOrder = (state, action) => {
         return compareStrings(a.type, b.type);
       case 'user':
         return compareStrings(a.user.name, b.user.name);
+      case 'name':
+          return compareStrings(a.name, b.name);
       default:
-        return compareStrings(a.name, b.name);
+          return true;
+        
     }
   });
   if (action.order.direction === 'desc')

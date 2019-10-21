@@ -8,7 +8,7 @@ const initialState = {
   showFilters: true,
   redirectUrl: null,
   filterFields: { name: '', userId: 'all' },
-  order: { by: 'name', direction: 'asc' }
+  order: { by: 'none', direction: 'asc' }
 };
 
 const clear = () => {
@@ -45,8 +45,10 @@ const updateCategoryOrder = (state, action) => {
         var groupA = !!a.group ? a.group.name : '';
         var groupB = !!b.group ? b.group.name : '';
         return compareStrings(groupA, groupB);
-      default:
+      case 'name':
         return compareStrings(a.name, b.name);
+      default:
+        return true;
     }
   });
   if (action.order.direction === 'desc')

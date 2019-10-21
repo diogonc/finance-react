@@ -61,7 +61,7 @@ function List(props) {
   const { classes, loadStart, shouldBeUpdated, lastUpdate, items, order, updateOrder } = props;
 
   useEffect(() => {
-    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()) {
+    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 10 < new Date().getTime()) {
       loadStart();
     }
   }, [loadStart, shouldBeUpdated, lastUpdate, items]);

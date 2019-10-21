@@ -89,7 +89,7 @@ function Report(props) {
   const { classes, loadStart, shouldBeUpdated, lastUpdate, result } = props;
 
   useEffect(() => {
-    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 60 * 10 < new Date().getTime()) {
+    if (shouldBeUpdated || lastUpdate.getTime() + 1000 * 1  < new Date().getTime()) {
       loadStart();
     }
   }, [loadStart, shouldBeUpdated, lastUpdate, result]);

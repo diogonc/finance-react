@@ -50,7 +50,7 @@ const submitForm = (event, props, item, saveAndAddNewItem) => {
         categoryId: item.categoryId,
         financeAccountId: item.financeAccountId,
         value: 0,
-        date: item.date
+        date: dateToString(item.date)
       });
     } else {
       props.add(item, '/transactions');
@@ -88,9 +88,10 @@ const Edit = props => {
       loadCategories();
     }
     if (item.id === 0 && !!props.defaultValue) {
-      const categoryId = categories.length > 0 ? categories[0].id : 0;
-      const financeAccountId = accounts.length > 0 ? accounts[0].id : 0;
-      updateItem({ ...props.defaultValue, categoryId, financeAccountId });
+      const categoryId = categories.length === 1 ? categories[0].id : !!props.defaultValue.categoryId ? props.defaultValue.categoryId : 0;
+      const financeAccountId = accounts.length === 1 ? accounts[0].id : !!props.defaultValue.financeAccountId ? props.defaultValue.financeAccountId : 0;
+      const date = !!props.defaultValue.date ? props.defaultValue.date : null;
+      updateItem({ ...props.defaultValue, categoryId, financeAccountId, date });
     }
 
   }, [redirectUrl, props.history, props.defaultValue, item.id, loadAccounts, accounts, loadCategories, categories]);
@@ -134,13 +135,13 @@ const Edit = props => {
         </FormControl>
         <FormControl margin="normal" fullWidth>
           <InputLabel htmlFor="date">Data</InputLabel>
-          <Input id="date" name="date" autoFocus type="date"
+          <Input id="date" name="date" type="date"
             value={item.date}
             onChange={event => updateItem({ ...item, date: event.target.value })} />
         </FormControl>
         <FormControl margin="normal" fullWidth>
           <InputLabel htmlFor="description">Descrição</InputLabel>
-          <Input id="description" name="description" autoFocus
+          <Input id="description" name="description" 
             value={item.description}
             onChange={event => updateItem({ ...item, description: event.target.value })} />
         </FormControl>

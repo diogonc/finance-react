@@ -32,6 +32,7 @@ const styles = theme => ({
             width: '100%',
             marginBottom: '20px'
         },
+        minWidth: '180px'
     },
     button: {
         marginTop: theme.spacing(1),
