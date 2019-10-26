@@ -91,7 +91,10 @@ const Edit = props => {
       const categoryId = categories.length === 1 ? categories[0].id : !!props.defaultValue.categoryId ? props.defaultValue.categoryId : 0;
       const financeAccountId = accounts.length === 1 ? accounts[0].id : !!props.defaultValue.financeAccountId ? props.defaultValue.financeAccountId : 0;
       const date = !!props.defaultValue.date ? props.defaultValue.date : null;
+
       updateItem({ ...props.defaultValue, categoryId, financeAccountId, date });
+
+      document.getElementById('value').focus();
     }
 
   }, [redirectUrl, props.history, props.defaultValue, item.id, loadAccounts, accounts, loadCategories, categories]);

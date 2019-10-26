@@ -18,6 +18,7 @@ import ListTransaction from './screens/transaction/list';
 import EditTransaction from './screens/transaction/edit';
 import TransferTransaction from './screens/transaction/transfer';
 import BalancePerAccount from './screens/balancePerAccount/report';
+import BalancePerCategory from './screens/balancePerCategory/report';
 
 const styles = theme => ({
   root: {
@@ -57,6 +58,7 @@ const App = (props) => {
         <Route path="/transactions/transfer" component={TransferTransaction} />
         <Route path="/transactions" exact render={() => <ListTransaction />} />
         <Route path="/balance-per-account" component={BalancePerAccount} />
+        <Route path="/balance-per-category" component={BalancePerCategory} />
         <Route path="*" render={() => <EditTransaction />} />
       </Switch>
   } else if (props.location.pathname !== '/login') {

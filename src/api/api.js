@@ -197,6 +197,17 @@ class API {
         }
     }
 
+    async loadBalancePerCategory(filters) {
+        try {
+            if (!!filters && !!filters.userId && filters.userId === 'all') {
+                delete filters.userId;
+            }
+            return await this.getRequest('reports/balance-per-category', filters);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
     async postRequest(path, data) {
         try {
             const header = _getHeaderWithToken();

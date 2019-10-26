@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { Input, InputLabel, Select, MenuItem, Button } from '@material-ui/core';
 
-import * as actions from '../../redux/actions/balancePerAccountActions';
+import * as actions from '../../redux/actions/balancePerCategoryActions';
 import * as accountActions from '../../redux/actions/financeAccountActions';
 import * as categoryActions from '../../redux/actions/categoryActions';
 import { FormControl } from '@material-ui/core';
@@ -65,6 +65,7 @@ function resetFilters(event, updateFilters, updateSearchFilters) {
         categories: [],
         financeAccounts: [],
         users: [],
+        from: dateToString(new Date(today.getFullYear(), 0, 1)),
         to: dateToString(new Date(today.getFullYear(), today.getMonth() + 1, 0))
     };
     updateSearchFilters(searchFilters);
@@ -88,7 +89,13 @@ function Filter(props) {
     const filterForm = showFilters ?
         <form className={classes.form} onSubmit={event => submitSearch(event, searchFilters, props.updateFilters)}>
             <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="to">Data</InputLabel>
+                <InputLabel htmlFor="from">Início</InputLabel>
+                <Input id="from" name="from" autoFocus type="date"
+                    value={searchFilters.from}
+                    onChange={event => updateSearchFilters({ ...searchFilters, from: event.target.value })} />
+            </FormControl>
+            <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="to">Fim</InputLabel>
                 <Input id="to" name="to" type="date"
                     value={searchFilters.to}
                     onChange={event => updateSearchFilters({ ...searchFilters, to: event.target.value })} />
@@ -160,8 +167,8 @@ function Filter(props) {
 
 const mapStateToProps = state => {
     return {
-        filterFields: state.balancePerAccount.filterFields,
-        showFilters: state.balancePerAccount.showFilters,
+        filterFields: state.balancePerCategory.filterFields,
+        showFilters: state.balancePerCategory.showFilters,
         accounts: state.financeAccount.items,
         categories: state.category.items,
         users: state.account.users
