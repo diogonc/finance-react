@@ -10,7 +10,7 @@ class API {
         this.baseUrl = process.env.APP_HOST && process.env.APP_PORT
             ? `${process.env.APP_HOST}:${process.env.APP_PORT}/api/`
             : 'https://financeiro-diogonc.brazilsouth.cloudapp.azure.com/api/';
-            // : 'http://localhost:3000/api/';
+        //   : 'http://localhost:3000/api/';
         this.token = token;
     }
 
@@ -203,6 +203,17 @@ class API {
                 delete filters.userId;
             }
             return await this.getRequest('reports/balance-per-category', filters);
+        } catch (error) {
+            throw (error);
+        }
+    }
+
+    async loadFutureBalance(filters) {
+        try {
+            if (!!filters && !!filters.userId && filters.userId === 'all') {
+                delete filters.userId;
+            }
+            return await this.getRequest('reports/current-income', filters);
         } catch (error) {
             throw (error);
         }

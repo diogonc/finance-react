@@ -6,6 +6,7 @@ import category from './categoryReducers'
 import transaction from './transactionReducers'
 import balancePerAccount from './balancePerAccountReducers'
 import balancePerCategory from './balancePerCategoryReducers'
+import futureBalance from './futureBalanceReducers'
 import navigation from './navigationReducers'
 import appMain from './appMainReducers'
 
@@ -18,5 +19,6 @@ export default combineReducers({
     transaction,
     balancePerAccount,
     balancePerCategory,
+    futureBalance,
     appMain
 })

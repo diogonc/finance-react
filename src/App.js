@@ -19,6 +19,7 @@ import EditTransaction from './screens/transaction/edit';
 import TransferTransaction from './screens/transaction/transfer';
 import BalancePerAccount from './screens/balancePerAccount/report';
 import BalancePerCategory from './screens/balancePerCategory/report';
+import FutureBalance from './screens/futureBalance/report';
 
 const styles = theme => ({
   root: {
@@ -59,6 +60,7 @@ const App = (props) => {
         <Route path="/transactions" exact render={() => <ListTransaction />} />
         <Route path="/balance-per-account" component={BalancePerAccount} />
         <Route path="/balance-per-category" component={BalancePerCategory} />
+        <Route path="/future-balance" component={FutureBalance} />
         <Route path="*" render={() => <EditTransaction />} />
       </Switch>
   } else if (props.location.pathname !== '/login') {
