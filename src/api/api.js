@@ -9,8 +9,8 @@ class API {
         this.qs = qs;
         this.baseUrl = process.env.APP_HOST && process.env.APP_PORT
             ? `${process.env.APP_HOST}:${process.env.APP_PORT}/api/`
-        //    : 'https://financeiro-diogonc.brazilsouth.cloudapp.azure.com/api/';
-           : 'http://localhost:3000/api/';
+            : 'https://financeiro-diogonc.brazilsouth.cloudapp.azure.com/api/';
+        //   : 'http://localhost:3000/api/';
         this.token = token;
     }
 
