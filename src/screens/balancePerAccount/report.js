@@ -23,6 +23,11 @@ const styles = theme => ({
   tableRow: {
     cursor: 'pointer',
   },
+  money: {
+    fontSize: '14px',
+    padding: '5px 40px 5px 16px',
+    whiteSpace: 'nowrap'
+  },
   fab: {
     zIndex: '5',
     [theme.breakpoints.down('sm')]: {
@@ -69,7 +74,7 @@ function showUserTable(userKey, result, classes) {
             <TableCell component="th" scope="row">
               {userData.accounts[accountKey].account.name}
             </TableCell>
-            <TableCell align="right">{formatMoney(userData.accounts[accountKey].total)}</TableCell>
+            <TableCell align="right" className={classes.money}>{formatMoney(userData.accounts[accountKey].total)}</TableCell>
           </TableRow>
         )}
       </TableBody>
@@ -78,7 +83,7 @@ function showUserTable(userKey, result, classes) {
           <TableCell>
             Total
           </TableCell>
-          <TableCell align="right">{formatMoney(userData.total)}</TableCell>
+          <TableCell align="right" className={classes.money}>{formatMoney(userData.total)}</TableCell>
         </TableRow>
       </TableFooter>
     </Table>

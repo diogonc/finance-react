@@ -27,6 +27,11 @@ const styles = theme => ({
     cursor: 'pointer',
     fontWeight: 600,
   },
+  money: {
+    fontSize: '14px',
+    padding: '5px 40px 5px 16px',
+    whiteSpace: 'nowrap'
+  },
   visuallyHidden: {
     border: 0,
     clip: 'rect(0 0 0 0)',
@@ -90,16 +95,16 @@ function Report(props) {
                     <TableCell scope="row">
                       Saldo inicial
                       </TableCell>
-                    <TableCell align="right">{formatMoney(0)}</TableCell>
-                    <TableCell align="right">{formatMoney(result.previousBalance)}</TableCell>
+                    <TableCell align="right" className={classes.money}>{formatMoney(0)}</TableCell>
+                    <TableCell align="right" className={classes.money}>{formatMoney(result.previousBalance)}</TableCell>
                   </TableRow>
                   {balanceMonths.map(balanceMonth =>
                     <TableRow hover className={classes.tableRow} key={balanceMonth}>
                       <TableCell scope="row">
                         {balanceMonth}
                       </TableCell>
-                      <TableCell align="right">{formatMoney(result.currentBalance[balanceMonth].difference)}</TableCell>
-                      <TableCell align="right">{formatMoney(result.currentBalance[balanceMonth].balance)}</TableCell>
+                      <TableCell align="right" className={classes.money}>{formatMoney(result.currentBalance[balanceMonth].difference)}</TableCell>
+                      <TableCell align="right" className={classes.money}>{formatMoney(result.currentBalance[balanceMonth].balance)}</TableCell>
                     </TableRow>
                   )}
                 </TableBody>
@@ -108,8 +113,8 @@ function Report(props) {
                     <TableCell>
                       Média no período
                     </TableCell>
-                    <TableCell align="right">{formatMoney(result.averageDifference)}</TableCell>
-                    <TableCell align="right">{formatMoney(result.lastBalance)}</TableCell>
+                    <TableCell align="right" className={classes.money}>{formatMoney(result.averageDifference)}</TableCell>
+                    <TableCell align="right" className={classes.money}>{formatMoney(result.lastBalance)}</TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>

@@ -77,17 +77,6 @@ const FutureIncome = props => {
     updateItem({ ...tempItem });
   }, [monthlyIncreaseRate, currentValue, averageDifference, numberOfYears]);
 
-
-  // item.monthlyIncreaseRate = parseFloat(monthlyIncreaseRate).toFixed(2);
-  // item.currentValue = parseFloat(currentValue).toFixed(2);
-  // item.averageDifference = parseFloat(averageDifference).toFixed(2);
-  // item.numberOfYears = parseInt(numberOfYears);
-  // item.futureBalance = FutureBalanceReportCalc.getReport(
-  //   parseFloat(currentValue),
-  //   parseFloat(averageDifference),
-  //   parseFloat(monthlyIncreaseRate),
-  //   parseInt(numberOfYears));
-
   return (
     <>
       <Typography component="h1" variant="h5" className={classes.subTitle}>

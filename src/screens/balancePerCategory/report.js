@@ -23,6 +23,11 @@ const styles = theme => ({
   tableRow: {
     cursor: 'pointer',
   },
+  money: {
+    fontSize: '14px',
+    padding: '5px 40px 5px 16px',
+    whiteSpace: 'nowrap'
+  },
   groupRow: {
     cursor: 'pointer',
     fontWeight: 600,
@@ -93,7 +98,7 @@ function Report(props) {
                 Crédito
               </TableCell>
               {months.map(month =>
-                <TableCell key={month} align="right">
+                <TableCell key={month} align="right" className={classes.money}>
                   {formatMoney(result.creditBalance[month])}
                 </TableCell>
               )}
@@ -103,7 +108,7 @@ function Report(props) {
                 Débito
               </TableCell>
               {months.map(month =>
-                <TableCell key={month} align="right">
+                <TableCell key={month} align="right" className={classes.money}>
                   {formatMoney(result.debitBalance[month])}
                 </TableCell>
               )}
@@ -115,7 +120,7 @@ function Report(props) {
                 Saldo Total
               </TableCell>
               {months.map(month =>
-                <TableCell key={month} align="right">
+                <TableCell key={month} align="right" className={classes.money}>
                   {formatMoney(result.balance[month])}
                 </TableCell>
               )}
@@ -147,7 +152,7 @@ function Report(props) {
                 Total Créditos
               </TableCell>
               {months.map(month =>
-                <TableCell key={month} align="right">
+                <TableCell key={month} align="right" className={classes.money}>
                   {formatMoney(result.creditBalance[month])}
                 </TableCell>
               )}
@@ -179,7 +184,7 @@ function Report(props) {
                 Total Débitos
               </TableCell>
               {months.map(month =>
-                <TableCell key={month} align="right">
+                <TableCell key={month} align="right" className={classes.money}>
                   {formatMoney(result.debitBalance[month])}
                 </TableCell>
               )}
@@ -216,7 +221,7 @@ function groupComponent(classes, groupData, months) {
       <TableCell component="th" scope="row" className={classes.groupRow}>
         {groupData.group.name}
       </TableCell>
-      {months.map(month => <TableCell key={month} align="right" className={classes.groupRow}>
+      {months.map(month => <TableCell key={month} align="right" className={[classes.groupRow, classes.money].join(' ')} >
         {formatMoney(groupData.balance[month])}
       </TableCell>)}
     </TableRow>
@@ -225,7 +230,7 @@ function groupComponent(classes, groupData, months) {
         <TableCell scope="row">
           {groupData.categories[categoryKey].category.name}
         </TableCell>
-        {months.map(month => <TableCell key={month} align="right">
+        {months.map(month => <TableCell key={month} align="right" className={classes.money}>
           {formatMoney(groupData.categories[categoryKey].balance[month])}
         </TableCell>)}
       </TableRow>

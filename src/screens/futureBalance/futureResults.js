@@ -18,6 +18,11 @@ const styles = theme => ({
     },
     width: '140px'
   },
+  money: {
+    fontSize: '14px',
+    padding: '5px 40px 5px 16px',
+    whiteSpace: 'nowrap'
+  },
   button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
@@ -68,9 +73,9 @@ const FutureIncome = props => {
               <TableCell scope="row">
                 {dateKey}
               </TableCell>
-              <TableCell align="right">{formatMoney(result.futureBalance[dateKey].difference)}</TableCell>
-              <TableCell align="right">{formatMoney(result.averageDifference)}</TableCell>
-              <TableCell align="right">{formatMoney(result.futureBalance[dateKey].balance)}</TableCell>
+              <TableCell align="right" className={classes.money}>{formatMoney(result.futureBalance[dateKey].difference)}</TableCell>
+              <TableCell align="right" className={classes.money}>{formatMoney(result.averageDifference)}</TableCell>
+              <TableCell align="right" className={classes.money}>{formatMoney(result.futureBalance[dateKey].balance)}</TableCell>
             </TableRow>
           )}
         </TableBody>
