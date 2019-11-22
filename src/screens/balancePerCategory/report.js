@@ -7,7 +7,9 @@ import { Table, TableBody, TableCell, TableHead, TableFooter, TableRow, Paper, T
 
 import { formatMoney } from '../../shared/formatters';
 import * as actions from '../../redux/actions/balancePerCategoryActions';
+import { updateFilters as updateTransactionFilters } from '../../redux/actions/transactionActions';
 import Filter from './filter';
+import GroupComponent from './groupComponent';
 
 const styles = theme => ({
   root: {
@@ -128,7 +130,7 @@ function Report(props) {
           </TableFooter>
         </Table>
       </Paper>
-      <br/>
+      <br />
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
@@ -143,7 +145,7 @@ function Report(props) {
           </TableHead>
           <TableBody>
             {creditKeys.map(creditGroupKey =>
-              groupComponent(classes, result.groups.credit[creditGroupKey], months)
+              GroupComponent(classes, result.groups.credit[creditGroupKey], months, props.updateTransactionFilters, props.history)
             )}
           </TableBody>
           <TableFooter>
@@ -160,7 +162,7 @@ function Report(props) {
           </TableFooter>
         </Table>
       </Paper>
-      <br/>
+      <br />
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
@@ -175,7 +177,7 @@ function Report(props) {
           </TableHead>
           <TableBody>
             {debitKeys.map(debitGroupKey =>
-              groupComponent(classes, result.groups.debit[debitGroupKey], months)
+              GroupComponent(classes, result.groups.debit[debitGroupKey], months, props.updateTransactionFilters, props.history)
             )}
           </TableBody>
           <TableFooter>
@@ -207,36 +209,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     loadStart: () => dispatch(actions.loadBalancePerCategoryStart()),
+    updateTransactionFilters: (newFilters) => dispatch(updateTransactionFilters(newFilters))
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(Report)));
-
-function groupComponent(classes, groupData, months) {
-
-  const categories = Object.keys(groupData.categories);
-
-  return <React.Fragment key={groupData.group.id}>
-    <TableRow hover className={classes.tableRow}>
-      <TableCell component="th" scope="row" className={classes.groupRow}>
-        {groupData.group.name}
-      </TableCell>
-      {months.map(month => <TableCell key={month} align="right" className={[classes.groupRow, classes.money].join(' ')} >
-        {formatMoney(groupData.balance[month])}
-      </TableCell>)}
-    </TableRow>
-    {categories.map(categoryKey =>
-      <TableRow key={categoryKey} hover className={classes.tableRow}>
-        <TableCell scope="row">
-          {groupData.categories[categoryKey].category.name}
-        </TableCell>
-        {months.map(month => <TableCell key={month} align="right" className={classes.money}>
-          {formatMoney(groupData.categories[categoryKey].balance[month])}
-        </TableCell>)}
-      </TableRow>
-    )}
-  </React.Fragment>;
-}
 
 function formatMonthHeader(month) {
   return month === 'average' ? 'Média' : month === 'total' ? 'Total' : month;

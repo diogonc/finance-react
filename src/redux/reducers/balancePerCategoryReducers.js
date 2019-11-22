@@ -22,8 +22,6 @@ const clear = () => {
 }
 
 const load = (state, action) => {
-  // const sortedResult = sortCategories(action.result);
-
   return {
     ...state,
     result: action.result,
@@ -74,19 +72,3 @@ const reducer = (state = initialState, action) => {
 };
 
 export default reducer;
-
-function sortCategories(result) {
-  result.groups.debit.forEach(group => {
-    const categories = Object.keys(group.categories).map(function (key) {
-      return group.categories[key];
-    });
-
-    const sortedCategories = categories.sort((a, b) => {
-      return a.balance.total = b.balance.total;
-    })
-    
-    group.sortedCategories = sortedCategories;
-    return group;
-  })
-  return result;
-}
