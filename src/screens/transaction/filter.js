@@ -26,7 +26,7 @@ const styles = theme => ({
         display: 'flex',
         flexWrap: 'wrap',
         [theme.breakpoints.down('sm')]: {
-            margin: '0',
+            margin: '0'            
         }
     },
     formControl: {

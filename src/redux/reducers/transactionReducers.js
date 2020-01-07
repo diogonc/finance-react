@@ -3,11 +3,12 @@ import { compareStrings } from '../../shared/utils';
 import { dateToString } from '../../shared/formatters';
 
 var today = new Date();
+
 const initialState = {
   items: [],
   shouldBeUpdated: true,
   lastUpdate: today,
-  showFilters: true,
+  showFilters: window.innerWidth > 600,
   redirectUrl: null,
   filterFields: {
     description: '',

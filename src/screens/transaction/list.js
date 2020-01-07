@@ -30,12 +30,18 @@ const styles = theme => ({
     [theme.breakpoints.down('sm')]: {
       position: 'absolute',
       bottom: theme.spacing(2),
-      right: theme.spacing(2),
+      right: theme.spacing(10),
     },
     [theme.breakpoints.up('sm')]: {
       margin: theme.spacing(2),
       float: 'right'
     }
+  },
+  transferButton: {
+    [theme.breakpoints.down('sm')]: {
+      position: 'absolute',
+      right: theme.spacing(2),
+    },
   },
   visuallyHidden: {
     border: 0,
@@ -80,7 +86,7 @@ function List(props) {
   return (
     <>
     <Fab aria-label="Transfer"
-        className={classes.fab}
+        className={[classes.fab, classes.transferButton].join(' ')}
         onClick={() => goTo(props, 'transactions/transfer')}>
         <AddIcon />
       </Fab>

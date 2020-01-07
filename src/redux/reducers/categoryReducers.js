@@ -5,7 +5,7 @@ const initialState = {
   items: [],
   shouldBeUpdated: true,
   lastUpdate: new Date(),
-  showFilters: true,
+  showFilters: window.innerWidth > 600,
   redirectUrl: null,
   filterFields: { name: '', userId: 'all' },
   order: { by: 'none', direction: 'asc' }

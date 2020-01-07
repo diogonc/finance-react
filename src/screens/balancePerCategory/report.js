@@ -20,14 +20,13 @@ const styles = theme => ({
     top: '10px'
   },
   table: {
-    minWidth: 700,
   },
   tableRow: {
     cursor: 'pointer',
   },
   money: {
     fontSize: '14px',
-    padding: '5px 40px 5px 16px',
+    padding: '5px 30px 5px 16px',
     whiteSpace: 'nowrap'
   },
   groupRow: {

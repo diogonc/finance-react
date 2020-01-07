@@ -6,7 +6,7 @@ const initialState = {
   result: {},
   shouldBeUpdated: true,
   lastUpdate: today,
-  showFilters: true,
+  showFilters: window.innerWidth > 600,
   filterFields: {
     description: '',
     categories: [],

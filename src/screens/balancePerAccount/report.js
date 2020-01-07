@@ -18,7 +18,6 @@ const styles = theme => ({
     top: '10px'
   },
   table: {
-    minWidth: 700,
   },
   tableRow: {
     cursor: 'pointer',
