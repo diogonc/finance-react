@@ -18,7 +18,7 @@ const styles = theme => ({
     flexGrow: 1
   },
   table: {
-    minWidth: 700,
+    
   },
   tableRow: {
     cursor: 'pointer',
@@ -71,7 +71,7 @@ function Report(props) {
       <Filter></Filter>
       <div className={classes.root}>
         <Grid container spacing={3}>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <Paper className={classes.paper}>
               <Typography component="h1" variant="h5" className={classes.subTitle}>
                 Saldo atual
@@ -120,7 +120,7 @@ function Report(props) {
               </Table>
             </Paper>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <Paper className={classes.paper}>
               <FutureIncome
                 monthlyIncreaseRate='0.6'

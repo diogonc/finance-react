@@ -73,9 +73,10 @@ function resetFilters(event, updateFilters, updateSearchFilters) {
 }
 
 function Filter(props) {
-    const { classes, showFilters, filterFields, accounts, categories, users, loadAccounts, loadCategories } = props;
+    const { classes, filterFields, accounts, categories, users, loadAccounts, loadCategories } = props;
 
     const [searchFilters, updateSearchFilters] = useState({ ...filterFields });
+    const [showFilter, updateShowFilters] = useState(window.innerWidth > 600);  
 
     useEffect(() => {
         if (accounts.length === 0) {
@@ -86,7 +87,7 @@ function Filter(props) {
         }
     }, [loadAccounts, accounts, loadCategories, categories]);
 
-    const filterForm = showFilters ?
+    const filterForm = showFilter ?
         <form className={classes.form} onSubmit={event => submitSearch(event, searchFilters, props.updateFilters)}>
             <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="from">Início</InputLabel>
@@ -158,8 +159,9 @@ function Filter(props) {
     return (
         <>
             <SearchIcon className={classes.searchIcon}
-                onClick={props.toogleFilters}
+                onClick={() => updateShowFilters(!showFilter)}
             ></SearchIcon>
+            &nbsp;
             {filterForm}
         </>
     );

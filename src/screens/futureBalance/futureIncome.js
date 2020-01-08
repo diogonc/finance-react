@@ -15,7 +15,7 @@ const styles = theme => ({
   formControl: {
     marginRight: '20px',
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      width: '90%',
       marginBottom: '20px'
     },
     width: '140px'
@@ -24,7 +24,7 @@ const styles = theme => ({
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
     [theme.breakpoints.down('sm')]: {
-      width: '100%',
+      width: '90%',
     }
   },
   subTitle: {

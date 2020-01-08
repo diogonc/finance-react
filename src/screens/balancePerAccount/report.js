@@ -68,10 +68,10 @@ function showUserTable(userKey, result, classes) {
         </TableRow>
       </TableHead>
       <TableBody>
-        {accountKeys.map(accountKey =>
+        {accountKeys.filter(key => parseFloat(Math.abs(userData.accounts[key].total)).toFixed(0) !== '0').map(accountKey =>
           <TableRow hover className={classes.tableRow} key={accountKey}>
             <TableCell component="th" scope="row">
-              {userData.accounts[accountKey].account.name}
+              {userData.accounts[accountKey].account.name} 
             </TableCell>
             <TableCell align="right" className={classes.money}>{formatMoney(userData.accounts[accountKey].total)}</TableCell>
           </TableRow>
@@ -125,7 +125,7 @@ function Report(props) {
               <TableCell component="th" scope="row">
                 Total
               </TableCell>
-              <TableCell align="right">{formatMoney(result.total)}</TableCell>
+              <TableCell className={classes.money} align="right">{formatMoney(result.total)}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
